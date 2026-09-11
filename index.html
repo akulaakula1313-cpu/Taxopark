@@ -864,7 +864,7 @@ async function renderSettings(){
   var n=(S.profile.display_name)||(S.profile.username)||'Пользователь';
   var ph;
   if(S.isAdmin){ph='<div class="ss"><div class="pm2"><div class="pav adm">👑</div><div class="pinf"><div class="pnm">Администратор</div><div class="prl">Полный доступ</div></div><div class="ptg adm">ADMIN</div></div></div>';}
-  else{ph='<div class="ss"><div class="pm2"><div class="pav">'+ini(n)+'</div><div class="pinf"><div class="pnm">'+esc(n)+'</div><div class="prl">Личный профиль</div></div><div class="ptg usr">USER</div></div></div>';}
+  else{ph='<div class="ss"><div class="pm2"><div class="pav">'+ini(n)+'</div><div class="pinf"><div class="pnm">'+esc(n)+'</div><div class="prole">Личный профиль</div></div><div class="ptg usr">USER</div></div></div>';}
   var pwBlock='';
   if(!S.isAdmin){
     pwBlock='<div class="ss"><div class="ssh"><div class="ssi">🔑</div><div class="sst">Сменить пароль</div></div><div class="dw"><label class="dl">Текущий пароль</label><input class="mi mono" id="oldPw" type="password" placeholder="••••••"></div><div class="dw"><label class="dl">Новый пароль (мин. 6 символов)</label><input class="mi mono" id="newPw" type="password" placeholder="минимум 6"></div><button class="bcr" id="btnChPw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Сменить пароль</button><div class="hm">После смены — используйте новый пароль для входа.</div></div>';
