@@ -1,5 +1,5 @@
-// SANI Service Worker v8.1
-const CACHE = 'sani-v8.1';
+// SANI Service Worker v9.1
+const CACHE = 'sani-v9.1';
 const ASSETS = ['./', './index.html'];
 
 self.addEventListener('install', e => {
@@ -19,9 +19,7 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  // Пропускаем Supabase — всегда онлайн
   if (url.hostname.includes('supabase')) return;
-  // Для навигации — network-first, fallback to cache
   if (e.request.mode === 'navigate') {
     e.respondWith(
       fetch(e.request).then(r => {
@@ -32,7 +30,6 @@ self.addEventListener('fetch', e => {
     );
     return;
   }
-  // Остальное — cache-first
   e.respondWith(
     caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
       if (resp.ok && e.request.method === 'GET') {
@@ -42,17 +39,4 @@ self.addEventListener('fetch', e => {
       return resp;
     }).catch(() => caches.match('./')))
   );
-});
-
-// Push-уведомления (на будущее)
-self.addEventListener('push', e => {
-  let data = {title: 'SANI', body: 'Уведомление'};
-  try { if (e.data) data = e.data.json(); } catch(_) {}
-  e.waitUntil(self.registration.showNotification(data.title, {
-    body: data.body, icon: '/icon.png', badge: '/icon.png', tag: 'sani'
-  }));
-});
-self.addEventListener('notificationclick', e => {
-  e.notification.close();
-  e.waitUntil(clients.openWindow('/'));
 });
