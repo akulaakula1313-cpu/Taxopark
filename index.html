@@ -587,7 +587,7 @@ async function pushUnsubscribe(){
 async function pushStatus(){
   try{
     if(!('serviceWorker' in navigator)||!('PushManager' in window))return'unsupported';
-    if(Notification.permission!=='granted')return'denied';
+    var _perm=Notification.permission;if(_perm==='denied')return'denied';if(_perm!=='granted')return'off';
     var reg=await navigator.serviceWorker.ready;
     var sub=await reg.pushManager.getSubscription();
     return sub?'on':'off';
