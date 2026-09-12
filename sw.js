@@ -1,12 +1,9 @@
-// SANI Service Worker v9.1
-const CACHE = 'sani-v9.1';
+const CACHE = 'sani-v9.5';
 const ASSETS = ['./', './index.html'];
 
 self.addEventListener('install', e => {
   self.skipWaiting();
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS).catch(()=>{}))
-  );
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS).catch(()=>{})));
 });
 
 self.addEventListener('activate', e => {

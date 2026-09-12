@@ -311,13 +311,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:1.2rem;hei
 .alert-mm b{color:#fca5a5}
 .alert-cl{width:100%;padding:.75rem;border-radius:.75rem;border:none;background:linear-gradient(135deg,#f43f5e,#fb7185);color:#fff;font-family:inherit;font-size:.82rem;font-weight:800;cursor:pointer}
 @media(max-width:380px){.pact{width:1.9rem;height:2.4rem;font-size:.75rem}.qp{width:2.4rem;height:2.4rem}.pr2{font-size:.95rem}}
-
-.pin-screen{position:fixed;inset:0;z-index:150;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;gap:1.5rem}
+.pin-screen{position:fixed;inset:0;z-index:150;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;gap:1.25rem}
 .pin-screen.on{display:flex}
 .pin-logo{width:5rem;height:5rem;border-radius:1.4rem;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:2rem;color:#022c22;font-family:Arial,sans-serif;box-shadow:0 16px 40px -12px rgba(16,185,129,.85)}
-.pin-title{font-size:1.15rem;font-weight:800;text-align:center}
-.pin-sub{font-size:.72rem;color:var(--t3);font-weight:600;text-align:center;margin-top:-.9rem}
-.pin-dots{display:flex;gap:.85rem;height:1.5rem;align-items:center;margin:.5rem 0}
+.pin-title{font-size:1.15rem;font-weight:800;text-align:center;line-height:1.3}
+.pin-sub{font-size:.72rem;color:var(--t3);font-weight:600;text-align:center;margin-top:.35rem}
+.pin-dots{display:flex;gap:.85rem;height:1.5rem;align-items:center;margin:.35rem 0}
 .pin-dots span{width:.95rem;height:.95rem;border-radius:50%;background:var(--s3);transition:all .15s}
 .pin-dots span.on{background:linear-gradient(135deg,#10b981,#06b6d4);transform:scale(1.15)}
 .pin-dots.error span{background:#f43f5e;animation:shake .4s}
@@ -342,7 +341,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:1.2rem;hei
 <body>
 <div class="ob" id="ob">📵 Нет интернета</div>
 
-<!-- PIN SCREEN -->
 <div class="pin-screen" id="pinScreen">
   <div class="pin-logo">S</div>
   <div><div class="pin-title" id="pinTitle">Введите PIN-код</div><div class="pin-sub" id="pinSub">Быстрый вход</div></div>
@@ -388,14 +386,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:1.2rem;hei
 <script>
 'use strict';
 
-/* ============ НАСТРОЙКИ ============ */
 var SB_URL='https://kaovizvikplhsxoonsxu.supabase.co';
 var SB_KEY='sb_publishable_FmQzXiONzl5zE3d6E24iWA_tRukHNPn';
 var sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-var V='9.1',ZMIN=.75,ZMAX=2,MIN_DATE='2026-09-01';
+var V='9.5',ZMIN=.75,ZMAX=2,MIN_DATE='2026-09-01';
+var BOT_USERNAME='sani_park_bot';
 var PIN_KEY='sani-pin-hash',CRED_KEY='sani-cred-id',UNLOCK_KEY='sani-unlocked',BIO_TRIES_KEY='sani-bio-tries',BIO_MAX_TRIES=3;
 
-/* ============ ПЕРЕВОДЫ ============ */
 var T={ru:{today:'Сегодня',month:'Месяц',drivers:'Водители',debts:'Долги',report:'Отчёт',settings:'Настройки',overview:'Обзор',profiles:'Профили',collected:'Собрано',plan:'План',remain:'Остаток',paid:'Оплачено',unpaid:'Не оплачено',notpaid:'Недоплатили',paidFull:'Оплатили полностью',calcToday:'Калькулятор · сегодня',planDay:'План на день',payDay:'Оплаты за день',holiday:'Выходной',days:'дн.',addDriver:'Добавить водителя',name:'ФИО',plate:'Номер машины',phone:'Телефон',amount:'Сумма в день',debtsTitle:'Долги',debtsTotal:'Всего',noDebts:'Долгов нет',daysAgo:'дн.',call:'Позвонить',reportTitle:'Отчёт',avgDay:'Средний',bestDay:'Лучший день',notPaidRec:'не оплачено',weekSummary:'СВОДКА ЗА 7 ДНЕЙ',monthSummary:'ЗА МЕСЯЦ',byDriver:'ПО ВОДИТЕЛЯМ',money:'Деньги',cars:'Машины',carsTitle:'Машины',addCar:'Добавить машину',model:'Модель',insStart:'Страховка от',insUntil:'Страховка до',insNotSet:'не указана',insDaysLeft:'дн.',insExpired:'ИСТЕКЛА',changePw:'Сменить пароль',currentPw:'Текущий',newPw:'Новый пароль',changePwBtn:'Сменить',pwChanged:'Пароль изменён',pwMin:'мин. 6',wrongPw:'Неверный пароль',notifyTime:'Время уведомления',notifyDesc:'После этого часа если не оплачено — красным',save:'Сохранить',saved:'Сохранено',logout:'Выйти',scale:'Размер',theme:'Тема',lang:'Язык',greeting:'Введите ваш пароль',enter:'Войти',noAccess:'Обратитесь к администратору',noDrivers:'Водителей пока нет',addFirst:'Перейдите во вкладку «Водители»',delete:'Удалить',cancel:'Отмена',needPw:'Введите пароль',needName:'Введите имя',oilReplaced:'✓ Масло заменено',active:'Активен',inactive:'Стоит',insuranceAlert:'Страховка истекает!',oilChange:'Заменил масло',oilLast:'Масло менялось',mileage:'Пробег',insurance:'Страховка',tech:'Техобслуживание',debtPay:'Сколько дал',debtApply:'Распределить',debtDays:'Дней с долгом',carAutoCreated:'Машины добавлены',editDrv:'Изменить водителя',carInfo:'Номер машины меняется только в разделе «Отчёт → Машины»',pinSet:'Установить PIN',pinChange:'Сменить PIN',pinRemove:'Удалить PIN',pinSetTitle:'Создайте PIN-код',pinSetSub:'4 цифры для быстрого входа',pinRepeat:'Повторите PIN',pinWrong:'Неверный PIN',pinMismatch:'PIN не совпадает',pinSaved:'PIN сохранён',pinRemoved:'PIN удалён',pinBioEnable:'Face ID / отпечаток',pinBioOn:'Face ID включён',pinBioOff:'Face ID отключён',pinBioErr:'Не удалось',pinBioUnavail:'Недоступно на этом устройстве',bioBlocked:'Face ID заблокирован. Введите PIN',bioTry:'Face ID не распознан',installApp:'Установить приложение',installDesc:'Работает офлайн как обычное приложение'},am:{today:'Այսօր',month:'Ամիս',drivers:'Վարորդներ',debts:'Պարտքեր',report:'Հաշվետվություն',settings:'Կարգավորում',overview:'Ընդհանուր',profiles:'Պրոֆիլ',collected:'Հավաքված',plan:'Պլան',remain:'Մնացորդ',paid:'Վճարված',unpaid:'Չվճարված',notpaid:'Թերվճարված',paidFull:'Ամբողջովին',calcToday:'Հաշվիչ · այսօր',planDay:'Օրվա պլան',payDay:'Օրվա վճար',holiday:'Հանգստյան',days:'օր',addDriver:'Ավելացնել',name:'Անուն',plate:'Համար',phone:'Հեռախոս',amount:'Օրական',debtsTitle:'Պարտքեր',debtsTotal:'Ընդամենը',noDebts:'Պարտքեր չկան',daysAgo:'օր',call:'Զանգել',reportTitle:'Հաշվետվություն',avgDay:'Միջին',bestDay:'Լավագույն',notPaidRec:'չվճարված',weekSummary:'7 ՕՐՎԱ',monthSummary:'ԱՄՍՎԱ',byDriver:'ԸՍՏ ՎԱՐՈՐԴՆԵՐԻ',money:'Փող',cars:'Մեքենաներ',carsTitle:'Մեքենաներ',addCar:'Ավելացնել մեքենա',model:'Մոդել',insStart:'Ապահով.',insUntil:'մինչև',insNotSet:'չկա',insDaysLeft:'օր',insExpired:'ԱՎԱՐՏՎԱԾ',changePw:'Փոխել',currentPw:'Ընթացիկ',newPw:'Նոր',changePwBtn:'Փոխել',pwChanged:'Փոխված',pwMin:'6 նշան',wrongPw:'Սխալ',notifyTime:'Ծանուցում',notifyDesc:'Այս ժամից հետո',save:'Պահպանել',saved:'Պահված',logout:'Դուրս',scale:'Չափ',theme:'Թեմա',lang:'Լեզու',greeting:'Մուտքագրեք գաղտնաբառ',enter:'Մուտք',noAccess:'Կապվեք ադմին',noDrivers:'Վարորդներ չկան',addFirst:'Ավելացրեք վարորդ',delete:'Ջնջել',cancel:'Չեղարկել',needPw:'Գաղտնաբառ',needName:'Անուն',oilReplaced:'✓ Փոխված',active:'Աշխատում',inactive:'Կանգնած',insuranceAlert:'Ապահովագրությունը լրանում է!',oilChange:'Փոխեցի յուղ',oilLast:'Յուղը',mileage:'Վազք',insurance:'Ապահով.',tech:'Տեխսպասարկում',debtPay:'Ինչքան տվեց',debtApply:'Բաշխել',debtDays:'Օրեր',carAutoCreated:'Մեքենաներն ավելացված են',editDrv:'Փոխել վարորդին',carInfo:'Մեքենայի համարը փոխվում է միայն «Հաշվետվություն → Մեքենաներ»-ում',pinSet:'PIN',pinChange:'Փոխել PIN',pinRemove:'Ջնջել PIN',pinSetTitle:'Ստեղծեք PIN',pinSetSub:'4 նշան',pinRepeat:'Կրկնեք PIN',pinWrong:'Սխալ PIN',pinMismatch:'Չի համընկնում',pinSaved:'PIN պահված',pinRemoved:'PIN ջնջված',pinBioEnable:'Face ID',pinBioOn:'Face ID միացված',pinBioOff:'Face ID անջատված',pinBioErr:'Չհաջողվեց',pinBioUnavail:'Անհասանելի է',bioBlocked:'Face ID արգելափակված',bioTry:'Face ID չի ճանաչվել',installApp:'Տեղադրել',installDesc:'Աշխատում է առանց ինտերնետի'}};
 
 var MN=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
@@ -403,7 +400,6 @@ var MG=['января','февраля','марта','апреля','мая','и
 var WL=['вс','пн','вт','ср','чт','пт','сб'];
 var WH=['пн','вт','ср','чт','пт','сб','вс'];
 
-/* ============ СОСТОЯНИЕ ============ */
 var n0=new Date();
 var S={
   profile:null,isAdmin:false,
@@ -416,7 +412,6 @@ var S={
   installEvt:null
 };
 
-/* ============ УТИЛИТЫ ============ */
 var pad=function(n){return String(n).padStart(2,'0');};
 var dk=function(y,m,d){return y+'-'+pad(m+1)+'-'+pad(d);};
 var kod=function(dt){return dk(dt.getFullYear(),dt.getMonth(),dt.getDate());};
@@ -435,283 +430,153 @@ var toast=function(msg,t){var el=$('ts2');el.textContent=msg;el.className='ts '+
 var load=function(t){$('lt').textContent=t||'...';$('lo').classList.add('on');};
 var unload=function(){$('lo').classList.remove('on');};
 
-/* ============ PIN + BIOMETRIC ============ */
 async function hashPin(pin){
   try{
     var data=new TextEncoder().encode(pin+'sani-salt-v1-secret');
     var buf=await crypto.subtle.digest('SHA-256',data);
     return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
-  }catch(e){
-    return 'fb-'+pin.length+'-'+pin.split('').reduce(function(a,c){return a+c.charCodeAt(0)*7;},0);
-  }
+  }catch(e){return 'fb-'+pin.length+'-'+pin.split('').reduce(function(a,c){return a+c.charCodeAt(0)*7;},0);}
 }
 function hasPin(){return !!localStorage.getItem(PIN_KEY);}
 function hasBiometric(){return !!localStorage.getItem(CRED_KEY);}
-
-/* Счётчик неудачных попыток */
 function getBioTries(){try{return parseInt(localStorage.getItem(BIO_TRIES_KEY)||'0',10)||0;}catch(e){return 0;}}
 function setBioTries(n){try{localStorage.setItem(BIO_TRIES_KEY,String(n));}catch(e){}}
 function resetBioTries(){try{localStorage.removeItem(BIO_TRIES_KEY);}catch(e){}}
-
-/* base64url для WebAuthn */
-function bufToB64url(buf){
-  var bytes=new Uint8Array(buf);
-  var bin='';
-  for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);
-  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-}
-function b64urlToBuf(s){
-  s=String(s).replace(/-/g,'+').replace(/_/g,'/');
-  while(s.length%4)s+='=';
-  var bin=atob(s);
-  var bytes=new Uint8Array(bin.length);
-  for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
-  return bytes;
-}
-
-async function checkBioAvailable(){
-  try{
-    if(!window.PublicKeyCredential)return false;
-    if(typeof window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable!=='function')return false;
-    return await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-  }catch(e){return false;}
-}
-
+function bufToB64url(buf){var bytes=new Uint8Array(buf);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function b64urlToBuf(s){s=String(s).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var bin=atob(s);var bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return bytes;}
+async function checkBioAvailable(){try{if(!window.PublicKeyCredential)return false;if(typeof window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable!=='function')return false;return await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();}catch(e){return false;}}
 async function registerBiometric(){
   if(!window.PublicKeyCredential){return{ok:false,err:'no-webauthn'};}
   try{
     var challenge=crypto.getRandomValues(new Uint8Array(32));
     var userId=crypto.getRandomValues(new Uint8Array(16));
     var cred=await navigator.credentials.create({publicKey:{
-      challenge:challenge,
-      rp:{name:'SANI'},
+      challenge:challenge,rp:{name:'SANI'},
       user:{id:userId,name:'sani-'+Date.now(),displayName:'SANI User'},
       pubKeyCredParams:[{alg:-7,type:'public-key'},{alg:-257,type:'public-key'}],
       authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',residentKey:'preferred'},
-      timeout:60000,
-      attestation:'none'
+      timeout:60000,attestation:'none'
     }});
     if(!cred)return{ok:false,err:'cancelled'};
-    var b64=bufToB64url(cred.rawId);
-    localStorage.setItem(CRED_KEY,b64);
+    localStorage.setItem(CRED_KEY,bufToB64url(cred.rawId));
     return{ok:true};
-  }catch(e){
-    return{ok:false,err:(e&&e.message)?e.message:'unknown'};
-  }
+  }catch(e){return{ok:false,err:(e&&e.message)?e.message:'unknown'};}
 }
 async function verifyBiometric(){
   try{
     var credId=localStorage.getItem(CRED_KEY);
     if(!credId)return{ok:false,err:'no-cred'};
     var challenge=crypto.getRandomValues(new Uint8Array(32));
-    var idBytes=b64urlToBuf(credId);
     var assertion=await navigator.credentials.get({publicKey:{
       challenge:challenge,
-      allowCredentials:[{id:idBytes,type:'public-key'}],
-      userVerification:'required',
-      timeout:60000
+      allowCredentials:[{id:b64urlToBuf(credId),type:'public-key'}],
+      userVerification:'required',timeout:60000
     }});
-    if(!assertion)return{ok:false,err:'cancelled'};
-    return{ok:true};
-  }catch(e){
-    return{ok:false,err:(e&&e.name)?e.name:((e&&e.message)?e.message:'unknown')};
-  }
+    return assertion?{ok:true}:{ok:false,err:'cancelled'};
+  }catch(e){return{ok:false,err:(e&&e.name)?e.name:((e&&e.message)?e.message:'unknown')};}
 }
 function removeBiometric(){localStorage.removeItem(CRED_KEY);resetBioTries();}
 
-async function showPinScreen(mode){
-  S.pinBuffer='';
-  S.pinMode=mode||'unlock';
-  S.pinFirst='';
-  $('pinErr').textContent='';
-  if(S.pinMode==='set'||S.pinMode==='change'){
-    $('pinTitle').textContent=tr('pinSetTitle');
-    $('pinSub').textContent=tr('pinSetSub');
-  }else{
-    $('pinTitle').textContent='Введите PIN-код';
-    $('pinSub').textContent='Быстрый вход в SANI';
-  }
-  updatePinDots();
-
-  var showFace=false;
-  if(S.pinMode==='unlock'&&hasBiometric()){
-    var tries=getBioTries();
-    if(tries<BIO_MAX_TRIES){
-      showFace=await checkBioAvailable();
-    }
-  }
-  $('pinFaceBtn').style.display=showFace?'flex':'none';
-  $('pinScreen').classList.add('on');
-
-  /* Автозапуск Face ID при открытии экрана */
-  if(showFace){
-    setTimeout(function(){
-      if($('pinScreen').classList.contains('on')&&S.pinMode==='unlock'){
-        tryBiometric();
-      }
-    },400);
-  }
-}
-function hidePinScreen(){
-  $('pinScreen').classList.remove('on');
-  S.pinBuffer='';
-  S.pinFirst='';
-}
-function updatePinDots(){
-  var d=$('pinDots');
-  d.classList.remove('error');
-  d.querySelectorAll('span').forEach(function(s,i){s.classList.toggle('on',i<S.pinBuffer.length);});
-}
-function pinError(msg){
-  $('pinErr').textContent=msg;
-  $('pinDots').classList.add('error');
-  if(navigator.vibrate)navigator.vibrate(200);
-  setTimeout(function(){
-    S.pinBuffer='';
-    updatePinDots();
-    $('pinDots').classList.remove('error');
-  },600);
-}
-function handlePinDigit(d){
-  if(S.pinBuffer.length>=4)return;
-  S.pinBuffer+=d;
-  updatePinDots();
-  if(navigator.vibrate)navigator.vibrate(15);
-  if(S.pinBuffer.length===4)setTimeout(processPin,150);
-}
-async function processPin(){
-  var entered=S.pinBuffer;
-  if(S.pinMode==='unlock'){
-    var stored=localStorage.getItem(PIN_KEY);
-    var hash=await hashPin(entered);
-    if(hash===stored){
+async function tryBiometric(){
+  try{
+    var res=await verifyBiometric();
+    if(res.ok){
       resetBioTries();
       sessionStorage.setItem(UNLOCK_KEY,'1');
       hidePinScreen();
       if(navigator.vibrate)navigator.vibrate([30,50,30]);
       checkSession();
     }else{
-      pinError(tr('pinWrong'));
+      if(res.err==='cancelled'||res.err==='NotAllowedError'||res.err==='AbortError')return;
+      var tries=getBioTries()+1;
+      setBioTries(tries);
+      if(tries>=BIO_MAX_TRIES){$('pinFaceBtn').style.display='none';pinError(tr('bioBlocked'));}
+      else pinError(tr('bioTry')+' ('+tries+'/'+BIO_MAX_TRIES+')');
     }
+  }catch(e){pinError('Ошибка: '+e.message);}
+}
+
+async function showPinScreen(mode){
+  S.pinBuffer='';S.pinMode=mode||'unlock';S.pinFirst='';
+  $('pinErr').textContent='';
+  if(S.pinMode==='set'||S.pinMode==='change'){$('pinTitle').textContent=tr('pinSetTitle');$('pinSub').textContent=tr('pinSetSub');}
+  else{$('pinTitle').textContent='Введите PIN-код';$('pinSub').textContent='Быстрый вход в SANI';}
+  updatePinDots();
+  var showFace=false;
+  if(S.pinMode==='unlock'&&hasBiometric()&&getBioTries()<BIO_MAX_TRIES)showFace=await checkBioAvailable();
+  $('pinFaceBtn').style.display=showFace?'flex':'none';
+  $('pinScreen').classList.add('on');
+  if(showFace)setTimeout(function(){if($('pinScreen').classList.contains('on')&&S.pinMode==='unlock'&&getBioTries()<BIO_MAX_TRIES)tryBiometric();},450);
+}
+function hidePinScreen(){$('pinScreen').classList.remove('on');S.pinBuffer='';S.pinFirst='';}
+function updatePinDots(){var d=$('pinDots');d.classList.remove('error');d.querySelectorAll('span').forEach(function(s,i){s.classList.toggle('on',i<S.pinBuffer.length);});}
+function pinError(msg){$('pinErr').textContent=msg;$('pinDots').classList.add('error');if(navigator.vibrate)navigator.vibrate(200);setTimeout(function(){S.pinBuffer='';updatePinDots();$('pinDots').classList.remove('error');},600);}
+function handlePinDigit(d){if(S.pinBuffer.length>=4)return;S.pinBuffer+=d;updatePinDots();if(navigator.vibrate)navigator.vibrate(15);if(S.pinBuffer.length===4)setTimeout(processPin,150);}
+async function processPin(){
+  var entered=S.pinBuffer;
+  if(S.pinMode==='unlock'){
+    if(await hashPin(entered)===localStorage.getItem(PIN_KEY)){
+      resetBioTries();sessionStorage.setItem(UNLOCK_KEY,'1');hidePinScreen();
+      if(navigator.vibrate)navigator.vibrate([30,50,30]);
+      checkSession();
+    }else pinError(tr('pinWrong'));
   }else if(S.pinMode==='set'||S.pinMode==='change'){
     if(!S.pinFirst){
-      S.pinFirst=entered;
-      S.pinBuffer='';
-      updatePinDots();
-      $('pinTitle').textContent=tr('pinRepeat');
-      $('pinErr').textContent='';
+      S.pinFirst=entered;S.pinBuffer='';updatePinDots();
+      $('pinTitle').textContent=tr('pinRepeat');$('pinErr').textContent='';
     }else{
-      if(S.pinFirst!==entered){
-        pinError(tr('pinMismatch'));
-        S.pinFirst='';
-        $('pinTitle').textContent=tr('pinSetTitle');
-      }else{
-        var h=await hashPin(entered);
-        localStorage.setItem(PIN_KEY,h);
-        resetBioTries();
-        sessionStorage.setItem(UNLOCK_KEY,'1');
-        toast(tr('pinSaved'),'su');
-        hidePinScreen();
+      if(S.pinFirst!==entered){pinError(tr('pinMismatch'));S.pinFirst='';$('pinTitle').textContent=tr('pinSetTitle');}
+      else{
+        localStorage.setItem(PIN_KEY,await hashPin(entered));
+        resetBioTries();sessionStorage.setItem(UNLOCK_KEY,'1');
+        toast(tr('pinSaved'),'su');hidePinScreen();
         if(S.tab==='vs')renderSettings();
       }
     }
   }
 }
 
-/* ============ PWA ============ */
-function setupPWA(){
-  var manifest={
-    name:'SANI — Учёт водителей',short_name:'SANI',
-    description:'Управление водителями, оплатами и машинами',
-    start_url:location.pathname||'.',scope:'./',display:'standalone',orientation:'portrait',
-    background_color:'#020617',theme_color:'#10b981',lang:'ru',
-    icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2310b981'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Ctext x='50' y='78' font-size='82' font-weight='900' text-anchor='middle' fill='%23022c22' font-family='Arial'%3ES%3C/text%3E%3C/svg%3E",sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]
-  };
+/* ============ TELEGRAM ============ */
+async function tgGetLink(){
   try{
-    var blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});
-    $('pwaManifest').href=URL.createObjectURL(blob);
-  }catch(e){}
-  if('serviceWorker' in navigator){
-    window.addEventListener('load',function(){
-      navigator.serviceWorker.register('sw.js').catch(function(){});
-    });
-  }
-  window.addEventListener('beforeinstallprompt',function(e){
-    e.preventDefault();
-    S.installEvt=e;
-    if(!localStorage.getItem('sani-install-hidden'))$('installBanner').classList.add('on');
-  });
-  window.addEventListener('appinstalled',function(){
-    S.installEvt=null;
-    $('installBanner').classList.remove('on');
-    toast('✓ Установлено','su');
-  });
-  $('installBtn').addEventListener('click',async function(){
-    if(!S.installEvt){toast('Откройте меню браузера → «Установить»','info');return;}
-    S.installEvt.prompt();
-    try{await S.installEvt.userChoice;}catch(e){}
-    S.installEvt=null;
-    $('installBanner').classList.remove('on');
-  });
-  $('installClose').addEventListener('click',function(){
-    $('installBanner').classList.remove('on');
-    localStorage.setItem('sani-install-hidden','1');
-  });
+    if(!S.ownerId)return null;
+    var r=await sb.from('telegram_links').select('*').eq('profile_id',S.ownerId).maybeSingle();
+    return r.data;
+  }catch(e){return null;}
+}
+async function tgUnlink(){
+  try{
+    var r=await sb.from('telegram_links').delete().eq('profile_id',S.ownerId);
+    return !r.error;
+  }catch(e){return false;}
 }
 
-/* ============ ZOOM / THEME ============ */
-function applyZoom(z){
-  z=Math.max(ZMIN,Math.min(ZMAX,Math.round(z*100)/100));
-  S.zoom=z;
-  document.documentElement.style.setProperty('--zoom',z);
-  var p=Math.round(z*100);
-  var r=$('zoomRange');if(r)r.value=p;
-  var v=$('zoomVal');if(v)v.textContent=p+'%';
-  document.querySelectorAll('.spr button').forEach(function(b){b.classList.toggle('on',+b.dataset.zoom===p);});
-  var s=$('aboutSub');if(s)s.textContent='v'+V+' · '+p+'% · '+S.theme;
-  try{localStorage.setItem('sani-zoom',z);}catch(e){}
+function setupPWA(){
+  var manifest={name:'SANI — Учёт водителей',short_name:'SANI',description:'Управление водителями, оплатами и машинами',start_url:location.pathname||'.',scope:'./',display:'standalone',orientation:'portrait',background_color:'#020617',theme_color:'#10b981',lang:'ru',icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2310b981'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Ctext x='50' y='78' font-size='82' font-weight='900' text-anchor='middle' fill='%23022c22' font-family='Arial'%3ES%3C/text%3E%3C/svg%3E",sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
+  try{var blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});$('pwaManifest').href=URL.createObjectURL(blob);}catch(e){}
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();S.installEvt=e;if(!localStorage.getItem('sani-install-hidden'))$('installBanner').classList.add('on');});
+  window.addEventListener('appinstalled',function(){S.installEvt=null;$('installBanner').classList.remove('on');toast('✓ Установлено','su');});
+  $('installBtn').addEventListener('click',async function(){if(!S.installEvt){toast('Откройте меню браузера → «Установить»','info');return;}S.installEvt.prompt();try{await S.installEvt.userChoice;}catch(e){}S.installEvt=null;$('installBanner').classList.remove('on');});
+  $('installClose').addEventListener('click',function(){$('installBanner').classList.remove('on');localStorage.setItem('sani-install-hidden','1');});
 }
-function setTheme(t){
-  S.theme=t;
-  document.documentElement.setAttribute('data-theme',t);
-  try{localStorage.setItem('sani-theme',t);}catch(e){}
-  var s=$('aboutSub');if(s)s.textContent='v'+V+' · '+Math.round(S.zoom*100)+'% · '+t;
-  var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='dark'?'#020617':'#f1f5f9');
-}
+
+function applyZoom(z){z=Math.max(ZMIN,Math.min(ZMAX,Math.round(z*100)/100));S.zoom=z;document.documentElement.style.setProperty('--zoom',z);var p=Math.round(z*100);var r=$('zoomRange');if(r)r.value=p;var v=$('zoomVal');if(v)v.textContent=p+'%';document.querySelectorAll('.spr button').forEach(function(b){b.classList.toggle('on',+b.dataset.zoom===p);});var s=$('aboutSub');if(s)s.textContent='v'+V+' · '+p+'% · '+S.theme;try{localStorage.setItem('sani-zoom',z);}catch(e){}}
+function setTheme(t){S.theme=t;document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('sani-theme',t);}catch(e){}var s=$('aboutSub');if(s)s.textContent='v'+V+' · '+Math.round(S.zoom*100)+'% · '+t;var m=document.querySelector('meta[name=theme-color]');if(m)m.content=(t==='dark'?'#020617':'#f1f5f9');}
 function setLang(l){S.lang=l;try{localStorage.setItem('sani-lang',l);}catch(e){}}
 var on=function(){$('ob').classList.toggle('on',!navigator.onLine);};
-window.addEventListener('online',on);
-window.addEventListener('offline',on);
+window.addEventListener('online',on);window.addEventListener('offline',on);
 
-/* ============ AUTH ============ */
-async function checkSession(){
-  var r=await sb.auth.getSession();
-  if(r.data.session&&r.data.session.user){await loadProfile();return;}
-  showAuth();
-}
-function showAuth(){
-  $('as').classList.add('on');
-  $('ap').value='';
-  $('aer').textContent='';
-  $('authSub').textContent=tr('greeting');
-  $('ab').textContent=tr('enter');
-  setTimeout(function(){try{$('ap').focus();}catch(e){}},300);
-}
+async function checkSession(){var r=await sb.auth.getSession();if(r.data.session&&r.data.session.user){await loadProfile();return;}showAuth();}
+function showAuth(){$('as').classList.add('on');$('ap').value='';$('aer').textContent='';$('authSub').textContent=tr('greeting');$('ab').textContent=tr('enter');setTimeout(function(){try{$('ap').focus();}catch(e){}},300);}
 async function tryLogin(){
-  var p=$('ap').value;
-  var e=$('aer');
+  var p=$('ap').value;var e=$('aer');
   if(!p){e.textContent=tr('needPw');return;}
-  e.textContent='';
-  load('...');
+  e.textContent='';load('...');
   try{
     var res=await fetch(SB_URL+'/functions/v1/find-email',{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},body:JSON.stringify({password:p})});
     var j=await res.json();
-    if(!res.ok||!j.email){
-      unload();
-      e.innerHTML=tr('wrongPw')+'<br><span style="font-size:.85em;opacity:.7">'+tr('noAccess')+'</span>';
-      $('ap').value='';
-      return;
-    }
+    if(!res.ok||!j.email){unload();e.innerHTML=tr('wrongPw')+'<br><span style="font-size:.85em;opacity:.7">'+tr('noAccess')+'</span>';$('ap').value='';return;}
     var sr=await sb.auth.signInWithPassword({email:j.email,password:p});
     if(sr.error){unload();e.innerHTML=tr('wrongPw');return;}
     await loadProfile();
@@ -724,23 +589,12 @@ async function loadProfile(){
     if(!ur.data.user){unload();showAuth();return;}
     var pr=await sb.from('profiles').select('*').eq('auth_id',ur.data.user.id).single();
     if(pr.error||!pr.data){toast('?','er');await sb.auth.signOut();unload();showAuth();return;}
-    S.profile=pr.data;
-    S.isAdmin=!!pr.data.is_admin;
-    S.ownerId=pr.data.id;
+    S.profile=pr.data;S.isAdmin=!!pr.data.is_admin;S.ownerId=pr.data.id;
     S.lang=pr.data.lang||localStorage.getItem('sani-lang')||'ru';
     if(!S.isAdmin)await loadData();
     $('as').classList.remove('on');
-    renderNav();
-    switchTab(S.isAdmin?'vao':'vt');
-    renderDayNav();
-    tick();
-    setInterval(tick,30000);
-    unload();
-    if(!hasPin()&&!S.isAdmin){
-      setTimeout(function(){
-        if(confirm(tr('pinSet')+'?'))showPinScreen('set');
-      },1200);
-    }
+    renderNav();switchTab(S.isAdmin?'vao':'vt');renderDayNav();
+    tick();setInterval(tick,30000);unload();
     if(!S.isAdmin)setTimeout(checkAndShowAlert,700);
   }catch(e){unload();toast('Ошибка: '+e.message,'er');}
 }
@@ -749,32 +603,17 @@ async function doLogout(){
   await sb.auth.signOut();
   S.profile=null;S.isAdmin=false;S.ownerId=null;
   S.drivers=[];S.cars=[];S.pay={};S.hol={};S.alertShown=false;
-  sessionStorage.removeItem(UNLOCK_KEY);
-  resetBioTries();
-  $('nv').innerHTML='';
-  closeSheet();
-  showAuth();
+  sessionStorage.removeItem(UNLOCK_KEY);resetBioTries();
+  $('nv').innerHTML='';closeSheet();showAuth();
 }
 
-/* ============ DATA ============ */
 async function loadData(){
-  var r=await Promise.all([
-    sb.from('drivers').select('*').order('position',{ascending:true}),
-    sb.from('payments').select('driver_id,day,sum,comment'),
-    sb.from('holidays').select('driver_id,day')
-  ]);
+  var r=await Promise.all([sb.from('drivers').select('*').order('position',{ascending:true}),sb.from('payments').select('driver_id,day,sum,comment'),sb.from('holidays').select('driver_id,day')]);
   if(r[0].error||r[1].error||r[2].error)throw r[0].error||r[1].error||r[2].error;
   S.drivers=(r[0].data||[]).map(function(x){return{id:x.id,name:x.name||'',phone:x.phone||'',plate:x.plate||'',amount:Number(x.amount)||0,car_id:x.car_id||null,is_active:x.is_active!==false};});
-  S.pay={};
-  (r[1].data||[]).forEach(function(x){if(!S.pay[x.day])S.pay[x.day]={};S.pay[x.day][x.driver_id]={sum:Number(x.sum)||0,comment:x.comment||''};});
-  S.hol={};
-  (r[2].data||[]).forEach(function(x){if(!S.hol[x.day])S.hol[x.day]={};S.hol[x.day][x.driver_id]=true;});
-  try{
-    var cr=await sb.from('cars').select('*').order('position',{ascending:true});
-    if(!cr.error&&cr.data){
-      S.cars=cr.data.map(function(x){return{id:x.id,plate:x.plate||'',model:x.model||'',mileage:Number(x.mileage)||0,last_oil_date:x.last_oil_date,last_oil_mileage:Number(x.last_oil_mileage)||0,oil_interval:Number(x.oil_interval)||10000,insurance_start:x.insurance_start,insurance_until:x.insurance_until,tech_note:x.tech_note||''};});
-    }
-  }catch(e){S.cars=[];}
+  S.pay={};(r[1].data||[]).forEach(function(x){if(!S.pay[x.day])S.pay[x.day]={};S.pay[x.day][x.driver_id]={sum:Number(x.sum)||0,comment:x.comment||''};});
+  S.hol={};(r[2].data||[]).forEach(function(x){if(!S.hol[x.day])S.hol[x.day]={};S.hol[x.day][x.driver_id]=true;});
+  try{var cr=await sb.from('cars').select('*').order('position',{ascending:true});if(!cr.error&&cr.data){S.cars=cr.data.map(function(x){return{id:x.id,plate:x.plate||'',model:x.model||'',mileage:Number(x.mileage)||0,last_oil_date:x.last_oil_date,last_oil_mileage:Number(x.last_oil_mileage)||0,oil_interval:Number(x.oil_interval)||10000,insurance_start:x.insurance_start,insurance_until:x.insurance_until,tech_note:x.tech_note||''};});}}catch(e){S.cars=[];}
   await syncDriversToCars();
 }
 async function syncDriversToCars(){
@@ -788,12 +627,7 @@ async function syncDriversToCars(){
     if(existing){drv.car_id=existing.id;await sb.from('drivers').update({car_id:existing.id}).eq('id',drv.id);continue;}
     var pos=S.cars.length;
     var ins=await sb.from('cars').insert({owner_id:S.ownerId,plate:plate.toUpperCase(),model:'',position:pos,oil_interval:10000}).select().single();
-    if(!ins.error&&ins.data){
-      S.cars.push({id:ins.data.id,plate:plate.toUpperCase(),model:'',mileage:0,last_oil_date:null,last_oil_mileage:0,oil_interval:10000,insurance_start:null,insurance_until:null,tech_note:''});
-      drv.car_id=ins.data.id;
-      await sb.from('drivers').update({car_id:ins.data.id}).eq('id',drv.id);
-      created++;
-    }
+    if(!ins.error&&ins.data){S.cars.push({id:ins.data.id,plate:plate.toUpperCase(),model:'',mileage:0,last_oil_date:null,last_oil_mileage:0,oil_interval:10000,insurance_start:null,insurance_until:null,tech_note:''});drv.car_id=ins.data.id;await sb.from('drivers').update({car_id:ins.data.id}).eq('id',drv.id);created++;}
   }
   if(created>0)toast('🚗 '+tr('carAutoCreated')+': '+created,'su');
 }
@@ -807,16 +641,11 @@ var insStatus=function(car){var d=insDays(car);if(d===null)return'none';if(d<0)r
 var getCarPlate=function(drv){if(!drv)return'';if(drv.car_id){var cc=getCar(drv.car_id);if(cc&&cc.plate)return cc.plate;}return drv.plate||'';};
 function filterDrivers(list,q){if(!q||!q.trim())return list;var qq=q.toLowerCase().trim();return list.filter(function(d){var cp=getCarPlate(d);return (d.name||'').toLowerCase().indexOf(qq)>=0||(d.phone||'').indexOf(qq)>=0||cp.toLowerCase().indexOf(qq)>=0;});}
 
-/* ============ CRUD ============ */
 async function addDriver(){
-  var pos=S.drivers.length;
-  var r=await sb.from('drivers').insert({owner_id:S.ownerId,name:'',phone:'',plate:'',amount:0,position:pos,is_active:true}).select().single();
+  var r=await sb.from('drivers').insert({owner_id:S.ownerId,name:'',phone:'',plate:'',amount:0,position:S.drivers.length,is_active:true}).select().single();
   if(r.error){toast('Ошибка','er');return;}
   var drv={id:r.data.id,name:'',phone:'',plate:'',amount:0,car_id:null,is_active:true};
-  S.drivers.push(drv);
-  renderDrivers();
-  openDriverEdit(drv.id);
-  toast('✓','su');
+  S.drivers.push(drv);renderDrivers();openDriverEdit(drv.id);toast('✓','su');
 }
 async function delDriver(id){
   if(!confirm(tr('delete')+'?'))return;
@@ -826,31 +655,26 @@ async function delDriver(id){
   if(i>=0)S.drivers.splice(i,1);
   Object.keys(S.pay).forEach(function(k){delete S.pay[k][id];});
   Object.keys(S.hol).forEach(function(k){delete S.hol[k][id];});
-  renderDrivers();
-  toast('✓','info');
+  renderDrivers();toast('✓','info');
 }
 async function toggleActive(id){
   var d=getDriver(id);if(!d)return;
   var nv=!d.is_active;
   var r=await sb.from('drivers').update({is_active:nv}).eq('id',id);
   if(r.error){toast('Ошибка','er');return;}
-  d.is_active=nv;
-  renderDrivers();refresh();
+  d.is_active=nv;renderDrivers();refresh();
   toast(nv?'🟢 '+tr('active'):'🔴 '+tr('inactive'),nv?'su':'info');
 }
 async function savePay(k,id,sum,comment){
   if(sum===0&&!comment){await delPay(k,id,true);return true;}
   var r=await sb.from('payments').upsert({owner_id:S.ownerId,driver_id:id,day:k,sum:sum,comment:comment,updated_at:new Date().toISOString()},{onConflict:'driver_id,day'});
   if(r.error){toast('Ошибка','er');return false;}
-  if(!S.pay[k])S.pay[k]={};
-  S.pay[k][id]={sum:sum,comment:comment};
-  return true;
+  if(!S.pay[k])S.pay[k]={};S.pay[k][id]={sum:sum,comment:comment};return true;
 }
 async function delPay(k,id,sil){
   var r=await sb.from('payments').delete().eq('driver_id',id).eq('day',k);
   if(r.error){if(!sil)toast('Ошибка','er');return false;}
-  if(S.pay[k])delete S.pay[k][id];
-  return true;
+  if(S.pay[k])delete S.pay[k][id];return true;
 }
 async function toggleHol(k,id){
   var h=isHol(k,id);
@@ -862,21 +686,17 @@ async function toggleHol(k,id){
   }else{
     var r2=await sb.from('holidays').insert({owner_id:S.ownerId,driver_id:id,day:k});
     if(r2.error){toast('Ошибка','er');return;}
-    if(!S.hol[k])S.hol[k]={};
-    S.hol[k][id]=true;
+    if(!S.hol[k])S.hol[k]={};S.hol[k][id]=true;
     if(S.pay[k]&&S.pay[k][id])await delPay(k,id,true);
     toast(tr('holiday')+' ✓','su');
   }
   renderDayNav();refresh();
 }
 async function addCar(){
-  var pos=S.cars.length;
-  var r=await sb.from('cars').insert({owner_id:S.ownerId,plate:'',model:'',position:pos,oil_interval:10000}).select().single();
+  var r=await sb.from('cars').insert({owner_id:S.ownerId,plate:'',model:'',position:S.cars.length,oil_interval:10000}).select().single();
   if(r.error){toast('Ошибка','er');return;}
   S.cars.push({id:r.data.id,plate:'',model:'',mileage:0,last_oil_date:null,last_oil_mileage:0,oil_interval:10000,insurance_start:null,insurance_until:null,tech_note:''});
-  renderReport();
-  openCarSheet(r.data.id);
-  toast('✓','su');
+  renderReport();openCarSheet(r.data.id);toast('✓','su');
 }
 async function delCar(id){
   if(!confirm(tr('delete')+'?'))return;
@@ -885,8 +705,7 @@ async function delCar(id){
   var i=S.cars.findIndex(function(c){return c.id===id;});
   if(i>=0)S.cars.splice(i,1);
   S.drivers.forEach(function(d){if(d.car_id===id)d.car_id=null;});
-  renderReport();
-  toast('✓','info');
+  renderReport();toast('✓','info');
 }
 function callDrv(id){
   var d=getDriver(id);
@@ -896,25 +715,18 @@ function callDrv(id){
   window.location.href='tel:'+c;
 }
 
-/* ============ ЛОГИКА ДНЯ ============ */
 function isLate(k,drv){
-  if(!drv.is_active)return false;
-  if(beforeStart(k))return false;
-  if(isHol(k,drv.id))return false;
+  if(!drv.is_active||beforeStart(k)||isHol(k,drv.id))return false;
   var amt=Number(drv.amount)||0;
   if(amt<=0)return false;
-  var p=getPay(k,drv.id);
-  var paid=p?p.sum:0;
+  var p=getPay(k,drv.id);var paid=p?p.sum:0;
   if(paid>=amt)return false;
   var today=tk();
   if(k<today)return true;
   if(k===today){
     var nt=(S.profile&&S.profile.notify_time)||'20:00';
-    var parts=nt.split(':');
-    var nh=parseInt(parts[0])||20;
-    var nm=parseInt(parts[1])||0;
-    var now=new Date();
-    var cur=now.getHours()*60+now.getMinutes();
+    var parts=nt.split(':');var nh=parseInt(parts[0])||20;var nm=parseInt(parts[1])||0;
+    var now=new Date();var cur=now.getHours()*60+now.getMinutes();
     return cur>=nh*60+nm;
   }
   return false;
@@ -924,26 +736,17 @@ function computeDay(k){
   S.drivers.forEach(function(d){
     if(!d.is_active)return;
     if(isHol(k,d.id)){hc++;return;}
-    var a=Number(d.amount)||0;
-    var p=getPay(k,d.id);
+    var a=Number(d.amount)||0;var p=getPay(k,d.id);
     plan+=a;
     if(p&&p.sum>0){paid+=p.sum;if(a>0&&p.sum>=a)pc++;else if(a>0&&p.sum<a)pac++;}
   });
   var tot=S.drivers.filter(function(d){return d.is_active;}).length;
   return{plan:plan,paid:paid,remain:Math.max(0,plan-paid),paidCount:pc,partialCount:pac,holidayCount:hc,total:tot};
 }
-function tick(){
-  var d=new Date();
-  var t=$('ct'),e=$('cd');
-  if(!t)return;
-  t.textContent=pad(d.getHours())+':'+pad(d.getMinutes());
-  e.textContent=d.getDate()+' '+MG[d.getMonth()].slice(0,3);
-}
+function tick(){var d=new Date();var t=$('ct'),e=$('cd');if(!t)return;t.textContent=pad(d.getHours())+':'+pad(d.getMinutes());e.textContent=d.getDate()+' '+MG[d.getMonth()].slice(0,3);}
 
-/* ============ NAV ============ */
 function renderNav(){
-  var n=$('nv');
-  if(!S.profile){n.innerHTML='';return;}
+  var n=$('nv');if(!S.profile){n.innerHTML='';return;}
   var items=S.isAdmin?[
     {t:'vao',l:tr('overview'),s:'<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>'},
     {t:'vap',l:tr('profiles'),s:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'},
@@ -968,8 +771,7 @@ function switchTab(t){
   $('ts').textContent=sub;
   $('tn').textContent=(t==='vs')?'SANI '+tr('settings'):(S.isAdmin?'SANI · Admin':'SANI');
   $('dn').style.display=t==='vt'?'flex':'none';
-  $('mn').scrollTop=0;
-  refresh();
+  $('mn').scrollTop=0;refresh();
 }
 function refresh(){
   if(!S.profile)return;
@@ -991,55 +793,35 @@ function renderDayNav(){
   var y=new Date();y.setDate(y.getDate()-1);
   var to=new Date();to.setDate(to.getDate()+1);
   var pf='';
-  if(k===kod(y))pf='← ';
-  else if(k===kod(to))pf='→ ';
+  if(k===kod(y))pf='← ';else if(k===kod(to))pf='→ ';
   l.textContent=pf+d.getDate()+' '+MG[d.getMonth()];
   l.classList.toggle('today',it);
   s.textContent=WL[d.getDay()]+(it?' · '+tr('today').toLowerCase():'');
   s.classList.toggle('today',it);
 }
 
-/* ============ TODAY ============ */
 function renderToday(){
   var el=$('vt');
   var d=S.vd,m=d.getMonth(),day=d.getDate(),k=kod(d),it=isTod(k);
   var allActive=S.drivers.filter(function(x){return x.is_active;});
   var searchV=(S.search&&S.search.today)||'';
   var filtered=filterDrivers(allActive,searchV);
-  if(allActive.length===0){
-    el.innerHTML='<div class="em"><div class="emi">🚗</div><div class="emt">'+tr('noDrivers')+'</div><div class="emd">'+tr('addFirst')+'</div></div>';
-    return;
-  }
+  if(allActive.length===0){el.innerHTML='<div class="em"><div class="emi">🚗</div><div class="emt">'+tr('noDrivers')+'</div><div class="emd">'+tr('addFirst')+'</div></div>';return;}
   var c=computeDay(k);
   var pt=allActive.length-(c.holidayCount||0);
   var pct=c.plan>0?Math.min(100,Math.round((c.paid/c.plan)*100)):(c.paidCount===pt?100:0);
   var circ=2*Math.PI*36,off=circ-(pct/100)*circ;
-  var before=beforeStart(k);
-  var cards='';
+  var before=beforeStart(k);var cards='';
   filtered.forEach(function(drv){
     var h=isHol(k,drv.id);
     var a=h?0:(Number(drv.amount)||0);
-    var p=getPay(k,drv.id);
-    var ps=p?p.sum:0;
-    var cm=p?p.comment:'';
-    var late=isLate(k,drv);
-    var cl='';
-    if(!drv.is_active)cl='inactive';
-    else if(before)cl='';
-    else if(h)cl='hol';
-    else if(late)cl='late';
-    else if(a>0&&ps>=a)cl='paid';
-    else if(ps>0&&ps<a)cl='partial';
-    else if(a>0&&ps===0&&isPast(k))cl='warn';
-    var amountTxt='—';
-    var amountCls='dim';
+    var p=getPay(k,drv.id);var ps=p?p.sum:0;var cm=p?p.comment:'';
+    var late=isLate(k,drv);var cl='';
+    if(!drv.is_active)cl='inactive';else if(before)cl='';else if(h)cl='hol';else if(late)cl='late';else if(a>0&&ps>=a)cl='paid';else if(ps>0&&ps<a)cl='partial';else if(a>0&&ps===0&&isPast(k))cl='warn';
+    var amountTxt='—';var amountCls='dim';
     if(!drv.is_active){amountTxt='🔴 '+tr('inactive');}
     else if(h){amountTxt=tr('holiday');}
-    else if(a>0){
-      if(ps>=a){amountTxt='✓ '+fmt(a)+' ֏';}
-      else if(ps>0){amountTxt=fmt(ps)+' / '+fmt(a)+' ֏ · '+fmt(a-ps);amountCls='warn';}
-      else{amountTxt=fmt(a)+' ֏';amountCls='';}
-    }
+    else if(a>0){if(ps>=a){amountTxt='✓ '+fmt(a)+' ֏';}else if(ps>0){amountTxt=fmt(ps)+' / '+fmt(a)+' ֏ · '+fmt(a-ps);amountCls='warn';}else{amountTxt=fmt(a)+' ֏';amountCls='';}}
     var qc='qp',qi='';
     if(cl==='paid'){qc+=' on';qi='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';}
     else if(cl==='partial'){qc+=' partial';qi='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';}
@@ -1048,15 +830,7 @@ function renderToday(){
     var hp=drv.phone&&drv.phone.trim();
     var carPlate=getCarPlate(drv);
     var insWarnHtml='';
-    if(drv.car_id){
-      var car=getCar(drv.car_id);
-      if(car){
-        var st=insStatus(car);
-        var days=insDays(car);
-        if(st==='danger'){insWarnHtml='<div class="pcm" style="color:#fca5a5;font-weight:800;margin-top:.1rem">🛡️ '+(days<0?tr('insExpired'):days+' '+tr('insDaysLeft'))+'</div>';}
-        else if(st==='warn'){insWarnHtml='<div class="pcm" style="color:#fbbf24;font-weight:800;margin-top:.1rem">🛡️ '+days+' '+tr('insDaysLeft')+'</div>';}
-      }
-    }
+    if(drv.car_id){var car=getCar(drv.car_id);if(car){var st=insStatus(car);var days=insDays(car);if(st==='danger'){insWarnHtml='<div class="pcm" style="color:#fca5a5;font-weight:800;margin-top:.1rem">🛡️ '+(days<0?tr('insExpired'):days+' '+tr('insDaysLeft'))+'</div>';}else if(st==='warn'){insWarnHtml='<div class="pcm" style="color:#fbbf24;font-weight:800;margin-top:.1rem">🛡️ '+days+' '+tr('insDaysLeft')+'</div>';}}}
     cards+='<div class="pc '+cl+'"><div class="pm" data-open="'+drv.id+'"><div class="pa">'+ini(drv.name)+'</div><div class="pi"><div class="pn '+(drv.name?'':'e')+'">'+esc(drv.name||'—')+'</div>'+(carPlate?'<div class="pr2">🚗 '+esc(carPlate)+'</div>':'')+insWarnHtml+'<div class="pa2 '+amountCls+'">'+amountTxt+'</div>'+(cm?'<div class="pcm">💬 '+esc(cm)+'</div>':'')+'</div></div><div class="pacts"><button class="pact call '+(hp?'':'dis')+'" data-call="'+drv.id+'">📞</button><button class="pact hol '+(h?'on':'')+'" data-hol="'+drv.id+'" '+(drv.is_active?'':'disabled style="opacity:.3;pointer-events:none"')+'>'+(h?'✕':'🎉')+'</button><button class="'+qc+'" data-qp="'+drv.id+'" '+(drv.is_active?'':'disabled style="opacity:.3;pointer-events:none"')+'>'+qi+'</button></div></div>';
   });
   var bd='';
@@ -1077,8 +851,7 @@ async function quickPay(k,id){
   if(isHol(k,id)){toast(tr('holiday'),'info');return;}
   var drv=getDriver(id);
   if(!drv||!drv.is_active)return;
-  var a=Number(drv.amount)||0;
-  var ex=getPay(k,id);
+  var a=Number(drv.amount)||0;var ex=getPay(k,id);
   if(ex&&a>0&&ex.sum>=a){await delPay(k,id);renderToday();toast('✗','info');return;}
   if(a<=0){openPaySheet(k,id);return;}
   var ok=await savePay(k,id,a,ex?ex.comment||'':'');
@@ -1087,8 +860,7 @@ async function quickPay(k,id){
 function openPaySheet(k,id){
   var drv=getDriver(id);if(!drv)return;
   var p=getPay(k,id)||{sum:0,comment:''};
-  var a=Number(drv.amount)||0;
-  var h=isHol(k,id);
+  var a=Number(drv.amount)||0;var h=isHol(k,id);
   var hp=drv.phone&&drv.phone.trim();
   var ymd=k.split('-').map(Number);
   $('shtT').textContent=ymd[2]+' '+MG[ymd[1]-1]+' · '+(drv.name||'—');
@@ -1103,61 +875,34 @@ function openPaySheet(k,id){
 function openSheet(id){$('sb').classList.add('on');$(id).classList.add('on');}
 function closeSheet(){$('sb').classList.remove('on');$('sht').classList.remove('on');$('ust').classList.remove('on');}
 
-/* ============ MONTH ============ */
 function renderMonth(){
   var el=$('vm');
   var year=S.mv.y,month=S.mv.m;
-  var total=dim(year,month);
-  var sw=fwm(year,month);
-  var t=tk();
+  var total=dim(year,month);var sw=fwm(year,month);var t=tk();
   var searchV=(S.search&&S.search.month)||'';
   var active=filterDrivers(S.drivers.filter(function(x){return x.is_active;}),searchV);
-  if(S.drivers.filter(function(x){return x.is_active;}).length===0){
-    el.innerHTML='<div class="em"><div class="emi">📅</div><div class="emt">'+tr('noDrivers')+'</div></div>';
-    return;
-  }
-  var wdH='';
-  WH.forEach(function(w,i){wdH+='<div class="wd '+(i>=5?'we':'')+'">'+w+'</div>';});
+  if(S.drivers.filter(function(x){return x.is_active;}).length===0){el.innerHTML='<div class="em"><div class="emi">📅</div><div class="emt">'+tr('noDrivers')+'</div></div>';return;}
+  var wdH='';WH.forEach(function(w,i){wdH+='<div class="wd '+(i>=5?'we':'')+'">'+w+'</div>';});
   var ch='';
   active.forEach(function(drv,idx){
     var sc=0;
-    for(var dd=1;dd<=total;dd++){
-      var kk=dk(year,month,dd);
-      if(beforeStart(kk))continue;
-      var pp=getPay(kk,drv.id);
-      if(pp&&pp.sum>0)sc+=pp.sum;
-    }
+    for(var dd=1;dd<=total;dd++){var kk=dk(year,month,dd);if(beforeStart(kk))continue;var pp=getPay(kk,drv.id);if(pp&&pp.sum>0)sc+=pp.sum;}
     var cells='';
     for(var s=0;s<sw;s++)cells+='<div></div>';
     for(var d=1;d<=total;d++){
       var k=dk(year,month,d);
       if(beforeStart(k)){cells+='<button class="db2 off"><span class="dn2">'+d+'</span></button>';continue;}
-      var h=isHol(k,drv.id);
-      var a=h?0:(Number(drv.amount)||0);
-      var p=getPay(k,drv.id);
-      var s2=p?p.sum:0;
-      var it=k===t;
-      var wd=(sw+d-1)%7;
-      var we=wd>=5;
-      var cl='db2';
-      if(h)cl+=' hol';
-      else if(a>0&&s2>=a)cl+=' paid';
-      else if(s2>0&&a>0&&s2<a)cl+=' partial';
-      else if(a>0&&s2===0&&isPast(k))cl+=' missed';
-      if(it)cl+=' today';
-      if(we&&!s2&&!it&&!h)cl+=' we';
+      var h=isHol(k,drv.id);var a=h?0:(Number(drv.amount)||0);var p=getPay(k,drv.id);var s2=p?p.sum:0;
+      var it=k===t;var wd=(sw+d-1)%7;var we=wd>=5;var cl='db2';
+      if(h)cl+=' hol';else if(a>0&&s2>=a)cl+=' paid';else if(s2>0&&a>0&&s2<a)cl+=' partial';else if(a>0&&s2===0&&isPast(k))cl+=' missed';
+      if(it)cl+=' today';if(we&&!s2&&!it&&!h)cl+=' we';
       cells+='<button class="'+cl+'" data-day="'+d+'" data-car="'+drv.id+'"><span class="dn2">'+d+'</span></button>';
     }
     var carPlate=getCarPlate(drv);
     ch+='<div class="cg"><div class="cgh"><div class="cgn">'+(idx+1)+'</div><div class="cgi"><div class="cgnm">'+esc(drv.name||'—')+'</div>'+(carPlate?'<div class="cgp">🚗 '+esc(carPlate)+'</div>':'')+'</div><div class="cgpr">'+fmt(sc)+' ֏</div></div><div class="wds">'+wdH+'</div><div class="dg">'+cells+'</div></div>';
   });
   var mp=0,mpaid=0;
-  for(var d2=1;d2<=total;d2++){
-    var kd=dk(year,month,d2);
-    if(beforeStart(kd))continue;
-    var c=computeDay(kd);
-    mp+=c.plan;mpaid+=c.paid;
-  }
+  for(var d2=1;d2<=total;d2++){var kd=dk(year,month,d2);if(beforeStart(kd))continue;var c=computeDay(kd);mp+=c.plan;mpaid+=c.paid;}
   var srchHtml='<input class="srch" id="srchMonth" placeholder="🔍 '+(S.lang==='am'?'Որոնում...':'Поиск')+'" value="'+esc(searchV)+'">';
   el.innerHTML=srchHtml+'<div class="mh"><button class="mhb" id="pmb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button><div class="mt">'+MN[month]+'<small>'+year+'</small></div><button class="mhb" id="nmb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></button></div><div class="calc"><div class="ch">'+MN[month]+'</div><div class="cr"><span class="lb">'+tr('plan')+'</span><span class="vl">'+fmt(mp)+' ֏</span></div><div class="cr g"><span class="lb">'+tr('collected')+'</span><span class="vl">'+fmt(mpaid)+' ֏</span></div><div class="cr r"><span class="lb">'+tr('remain')+'</span><span class="vl">'+fmt(Math.max(0,mp-mpaid))+' ֏</span></div></div>'+ch;
   var sm=$('srchMonth');
@@ -1167,15 +912,13 @@ function renderMonth(){
   el.querySelectorAll('.db2:not(.off)').forEach(function(b){b.addEventListener('click',function(){openPaySheet(dk(year,month,+b.dataset.day),b.dataset.car);});});
 }
 
-/* ============ DRIVERS ============ */
 function renderDrivers(){
   var el=$('vd');
   var h='<div class="sh"><div class="st">'+tr('drivers')+' · '+S.drivers.length+'</div></div>';
   var searchV=(S.search&&S.search.drivers)||'';
   h+='<input class="srch" id="srchDrv" placeholder="🔍 '+(S.lang==='am'?'Որոնում...':'Поиск по имени / номеру / телефону')+'" value="'+esc(searchV)+'">';
-  if(S.drivers.length===0){
-    h+='<div class="em"><div class="emi">👤</div><div class="emt">'+tr('noDrivers')+'</div></div>';
-  }else{
+  if(S.drivers.length===0){h+='<div class="em"><div class="emi">👤</div><div class="emt">'+tr('noDrivers')+'</div></div>';}
+  else{
     var list=filterDrivers(S.drivers,searchV);
     if(list.length===0){h+='<div class="em" style="padding:2rem 1rem"><div class="emi">🔍</div></div>';}
     else list.forEach(function(drv){
@@ -1198,46 +941,30 @@ function openDriverEdit(driverId){
   $('shtT').textContent='✏️ '+(drv.name||'—');
   $('shtB').innerHTML='<div style="display:flex;align-items:center;gap:.5rem;padding:.55rem .7rem;border-radius:.6rem;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.4);margin-bottom:.7rem"><span style="font-size:1.15rem">🚗</span><div style="flex:1;min-width:0"><div style="font-size:.55rem;font-weight:800;color:var(--t3);text-transform:uppercase">'+(S.lang==='am'?'Մեքենա':'Машина')+'</div><div style="font-family:JetBrains Mono,monospace;font-weight:900;color:var(--em2);font-size:1rem">'+(carPlate||'—')+'</div><div style="font-size:.55rem;color:var(--t4);margin-top:.1rem;line-height:1.3">'+tr('carInfo')+'</div></div></div><div class="dw"><label class="dl">'+tr('name')+'</label><input class="mi" id="editDrvName" value="'+esc(drv.name||'')+'"></div><div class="dw"><label class="dl">'+tr('phone')+'</label><input class="mi mono" id="editDrvPhone" type="tel" value="'+esc(drv.phone||'')+'"></div><div class="dw"><label class="dl">'+tr('amount')+' (֏)</label><input class="mi mono" id="editDrvAmount" type="number" inputmode="numeric" value="'+(drv.amount||'')+'"></div><div class="sacts"><button class="bt btd" id="editDrvDel">'+tr('delete')+'</button><button class="bt btp" id="editDrvOk">'+tr('save')+'</button></div>';
   $('editDrvOk').addEventListener('click',async function(){
-    var n=$('editDrvName').value.trim();
-    var ph=$('editDrvPhone').value.trim();
-    var am=Number($('editDrvAmount').value)||0;
+    var n=$('editDrvName').value.trim();var ph=$('editDrvPhone').value.trim();var am=Number($('editDrvAmount').value)||0;
     var r=await sb.from('drivers').update({name:n,phone:ph,amount:am}).eq('id',driverId);
     if(r.error){toast('Ошибка','er');return;}
-    drv.name=n;drv.phone=ph;drv.amount=am;
-    closeSheet();
-    renderDrivers();
-    toast(tr('saved'),'su');
+    drv.name=n;drv.phone=ph;drv.amount=am;closeSheet();renderDrivers();toast(tr('saved'),'su');
   });
-  $('editDrvDel').addEventListener('click',async function(){
-    if(!confirm(tr('delete')+'?'))return;
-    await delDriver(driverId);
-    closeSheet();
-  });
+  $('editDrvDel').addEventListener('click',async function(){if(!confirm(tr('delete')+'?'))return;await delDriver(driverId);closeSheet();});
   openSheet('sht');
 }
 
-/* ============ DEBTS ============ */
 function renderDebts(){
   var el=$('vdebt');
   var searchV=(S.search&&S.search.debts)||'';
   var active=filterDrivers(S.drivers.filter(function(d){return d.is_active;}),searchV);
-  if(S.drivers.filter(function(d){return d.is_active;}).length===0){
-    el.innerHTML='<div class="em"><div class="emi">💰</div><div class="emt">'+tr('noDrivers')+'</div></div>';
-    return;
-  }
-  var total=0;
-  var rows=[];
+  if(S.drivers.filter(function(d){return d.is_active;}).length===0){el.innerHTML='<div class="em"><div class="emi">💰</div><div class="emt">'+tr('noDrivers')+'</div></div>';return;}
+  var total=0;var rows=[];
   active.forEach(function(drv){
-    var debt=0;var days=0;
-    var d=new Date();
+    var debt=0;var days=0;var d=new Date();
     for(var i=0;i<=60;i++){
       var k=kod(d);
       if(beforeStart(k)){d.setDate(d.getDate()-1);continue;}
       if(isHol(k,drv.id)){d.setDate(d.getDate()-1);continue;}
       var amt=Number(drv.amount)||0;
       if(amt<=0){d.setDate(d.getDate()-1);continue;}
-      var p=getPay(k,drv.id);
-      var paid=p?p.sum:0;
+      var p=getPay(k,drv.id);var paid=p?p.sum:0;
       if(paid<amt){debt+=(amt-paid);days++;}
       d.setDate(d.getDate()-1);
     }
@@ -1262,17 +989,12 @@ function renderDebts(){
 }
 async function openDebtSheet(driverId){
   var drv=getDriver(driverId);if(!drv)return;
-  var days=[];
-  var d=new Date();
+  var days=[];var d=new Date();
   for(var i=0;i<=60;i++){
     var k=kod(d);
     if(!beforeStart(k)&&!isHol(k,drv.id)){
       var amt=Number(drv.amount)||0;
-      if(amt>0){
-        var p=getPay(k,drv.id);
-        var paid=p?p.sum:0;
-        if(paid<amt){days.push({key:k,date:new Date(d),owed:amt-paid,amt:amt,paid:paid,comment:p?p.comment:''});}
-      }
+      if(amt>0){var p=getPay(k,drv.id);var paid=p?p.sum:0;if(paid<amt){days.push({key:k,date:new Date(d),owed:amt-paid,amt:amt,paid:paid,comment:p?p.comment:''});}}
     }
     d.setDate(d.getDate()-1);
   }
@@ -1280,9 +1002,8 @@ async function openDebtSheet(driverId){
   var totalOwed=days.reduce(function(s,x){return s+x.owed;},0);
   $('shtT').textContent='💰 '+(drv.name||'—')+' · '+fmt(totalOwed)+' ֏';
   var daysHTML='';
-  if(days.length===0){
-    daysHTML='<div class="em" style="padding:1rem"><div class="emi">✨</div><div class="emt" style="font-size:.8rem">'+tr('noDebts')+'</div></div>';
-  }else{
+  if(days.length===0){daysHTML='<div class="em" style="padding:1rem"><div class="emi">✨</div><div class="emt" style="font-size:.8rem">'+tr('noDebts')+'</div></div>';}
+  else{
     days.slice(0,30).forEach(function(x){
       daysHTML+='<div style="display:flex;justify-content:space-between;align-items:center;padding:.45rem .6rem;border-radius:.55rem;background:var(--s2);border:1px solid var(--ln);margin-bottom:.3rem"><div style="font-size:.72rem"><b>'+x.date.getDate()+' '+MG[x.date.getMonth()]+'</b></div><div style="font-family:JetBrains Mono,monospace;font-size:.78rem;color:#fca5a5;font-weight:800">'+fmt(x.owed)+' ֏'+(x.paid>0?'<span style="color:var(--t3);font-weight:600"> / '+fmt(x.paid)+'</span>':'')+'</div></div>';
     });
@@ -1291,47 +1012,31 @@ async function openDebtSheet(driverId){
   $('shtB').innerHTML='<div style="display:flex;gap:.5rem;align-items:center;padding:.6rem .7rem;border-radius:.7rem;background:linear-gradient(135deg,rgba(220,38,38,.15),rgba(127,29,29,.08));border:1px solid rgba(220,38,38,.4);margin-bottom:.7rem"><div style="font-size:1.4rem">💰</div><div style="flex:1"><div style="font-size:.6rem;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.05em">'+tr('debtsTotal')+'</div><div style="font-family:JetBrains Mono,monospace;font-weight:900;font-size:1.15rem;color:#fca5a5">'+fmt(totalOwed)+' ֏</div></div><div style="text-align:right"><div style="font-size:.6rem;font-weight:800;color:var(--t3);text-transform:uppercase">'+tr('debtDays')+'</div><div style="font-family:JetBrains Mono,monospace;font-weight:900;font-size:1.15rem;color:var(--t1)">'+days.length+'</div></div></div><label class="sl">'+tr('days')+'</label>'+daysHTML+'<label class="sl" style="margin-top:.9rem">💵 '+tr('debtPay')+' (֏)</label><input class="mi mono" id="debtPay" type="number" inputmode="numeric" placeholder="0" style="font-size:1.15rem;text-align:center;font-weight:800;padding:.85rem"><div style="display:flex;gap:.35rem;margin-top:.5rem;flex-wrap:wrap"><button class="qb" data-fill-debt="'+totalOwed+'">'+fmt(totalOwed)+'</button><button class="qb" data-fill-debt="'+(Number(drv.amount)||0)+'">'+fmt(Number(drv.amount)||0)+' (1)</button></div><div class="sacts"><button class="bt btd" id="debtCancel">'+tr('cancel')+'</button><button class="bt btp" id="debtApply">✅ '+tr('debtApply')+'</button></div>';
   document.querySelectorAll('#shtB [data-fill-debt]').forEach(function(b){b.addEventListener('click',function(){$('debtPay').value=b.dataset.fillDebt;});});
   $('debtCancel').addEventListener('click',closeSheet);
-  $('debtApply').addEventListener('click',async function(){
-    var amount=Number($('debtPay').value)||0;
-    if(amount<=0){toast('—','er');return;}
-    await applyDebtPayment(driverId,amount);
-    closeSheet();
-    renderDebts();
-  });
+  $('debtApply').addEventListener('click',async function(){var amount=Number($('debtPay').value)||0;if(amount<=0){toast('—','er');return;}await applyDebtPayment(driverId,amount);closeSheet();renderDebts();});
   openSheet('sht');
 }
 async function applyDebtPayment(driverId,amount){
   var drv=getDriver(driverId);if(!drv)return;
-  var remaining=amount;
-  var days=[];
-  var d=new Date();
+  var remaining=amount;var days=[];var d=new Date();
   for(var i=0;i<=60;i++){
     var k=kod(d);
     if(!beforeStart(k)&&!isHol(k,drv.id)){
       var amt=Number(drv.amount)||0;
-      if(amt>0){
-        var p=getPay(k,drv.id);
-        var paid=p?p.sum:0;
-        if(paid<amt){days.push({key:k,owed:amt-paid,paid:paid,comment:p?p.comment:''});}
-      }
+      if(amt>0){var p=getPay(k,drv.id);var paid=p?p.sum:0;if(paid<amt){days.push({key:k,owed:amt-paid,paid:paid,comment:p?p.comment:''});}}
     }
     d.setDate(d.getDate()-1);
   }
   days.reverse();
   var closed=0;
   for(var i=0;i<days.length&&remaining>0;i++){
-    var day=days[i];
-    var payThis=Math.min(remaining,day.owed);
-    var newSum=day.paid+payThis;
+    var day=days[i];var payThis=Math.min(remaining,day.owed);var newSum=day.paid+payThis;
     var ok=await savePay(day.key,driverId,newSum,day.comment);
     if(ok){remaining-=payThis;if(payThis>=day.owed)closed++;}else break;
   }
-  if(closed>0)toast('✓ '+closed+' · '+fmt(amount-remaining)+' ֏','su');
-  else toast('✓','su');
+  if(closed>0)toast('✓ '+closed+' · '+fmt(amount-remaining)+' ֏','su');else toast('✓','su');
   refresh();
 }
 
-/* ============ REPORT ============ */
 function renderReport(){
   var el=$('vr');
   var year=S.mv.y,month=S.mv.m;
@@ -1341,24 +1046,19 @@ function renderReport(){
     var searchV=(S.search&&S.search.cars)||'';
     var sq=searchV.toLowerCase().trim();
     var filteredCars=sq?S.cars.filter(function(c){return (c.plate||'').toLowerCase().indexOf(sq)>=0||(c.model||'').toLowerCase().indexOf(sq)>=0;}):S.cars;
-    if(S.cars.length===0){
-      el.innerHTML=hdr+sw+'<div class="em" style="padding:2rem 1rem"><div class="emi">🚗</div><div class="emt">'+tr('cars')+'</div></div><button class="bcr" id="addC">'+tr('addCar')+'</button><div style="height:5rem"></div>';
-    }else{
+    if(S.cars.length===0){el.innerHTML=hdr+sw+'<div class="em" style="padding:2rem 1rem"><div class="emi">🚗</div><div class="emt">'+tr('cars')+'</div></div><button class="bcr" id="addC">'+tr('addCar')+'</button><div style="height:5rem"></div>';}
+    else{
       var ch='';
       filteredCars.forEach(function(car,idx){
-        var st=insStatus(car);
-        var d=insDays(car);
-        var cls='car';
-        if(st==='warn')cls+=' ins-warn';
-        if(st==='danger')cls+=' ins-danger';
+        var st=insStatus(car);var d=insDays(car);var cls='car';
+        if(st==='warn')cls+=' ins-warn';if(st==='danger')cls+=' ins-danger';
         var insBadge='';
         if(st==='ok')insBadge='<span class="car-ins-badge ok">'+d+' '+tr('insDaysLeft')+'</span>';
         else if(st==='warn')insBadge='<span class="car-ins-badge warn">⚠️ '+d+' '+tr('insDaysLeft')+'</span>';
         else if(st==='danger')insBadge='<span class="car-ins-badge danger">'+(d<0?tr('insExpired'):'⚠️ '+d+' '+tr('insDaysLeft'))+'</span>';
         else insBadge='<span class="car-ins-badge">'+tr('insNotSet')+'</span>';
         var oilTxt='—';
-        if(car.last_oil_mileage){var next=car.last_oil_mileage+car.oil_interval;oilTxt=fmt(car.last_oil_mileage)+' → '+fmt(next);}
-        else if(car.last_oil_date){oilTxt=car.last_oil_date;}
+        if(car.last_oil_mileage){var next=car.last_oil_mileage+car.oil_interval;oilTxt=fmt(car.last_oil_mileage)+' → '+fmt(next);}else if(car.last_oil_date){oilTxt=car.last_oil_date;}
         var oilCls='';
         if(car.mileage&&car.last_oil_mileage){var left=(car.last_oil_mileage+car.oil_interval)-car.mileage;if(left<=0)oilCls='danger';else if(left<=500)oilCls='warn';}
         ch+='<div class="'+cls+'" data-car="'+car.id+'"><div class="car-h"><div class="car-plate">'+esc(car.plate||('🚗'+(S.cars.indexOf(car)+1)))+'</div><div class="car-model">'+esc(car.model||'')+'</div>'+insBadge+'</div><div class="car-info"><span>📊 <b>'+fmt(car.mileage)+'</b></span><span class="'+oilCls+'">🔧 '+oilTxt+'</span></div></div>';
@@ -1371,44 +1071,26 @@ function renderReport(){
     if(sc){sc.addEventListener('input',function(e){S.search.cars=e.target.value;renderReport();setTimeout(function(){var s=$('srchCar');if(s){s.focus();s.setSelectionRange(s.value.length,s.value.length);}},0);});}
     el.querySelectorAll('[data-car]').forEach(function(c){c.addEventListener('click',function(){openCarSheet(c.dataset.car);});});
   }else{
-    var total=dim(year,month);
-    var plan=0,paid=0,missedDays=0;
-    var byDriver={};
+    var total=dim(year,month);var plan=0,paid=0,missedDays=0;var byDriver={};
     S.drivers.filter(function(x){return x.is_active;}).forEach(function(d){byDriver[d.id]={name:d.name,plate:getCarPlate(d),plan:0,paid:0,missed:0,days:0};});
     for(var d=1;d<=total;d++){
       var k=dk(year,month,d);
-      if(beforeStart(k))continue;
-      if(!isPast(k)&&k!==tk())continue;
+      if(beforeStart(k))continue;if(!isPast(k)&&k!==tk())continue;
       S.drivers.forEach(function(drv){
-        if(!drv.is_active)return;
-        if(isHol(k,drv.id))return;
-        var amt=Number(drv.amount)||0;
-        var p=getPay(k,drv.id);
-        var s=p?p.sum:0;
-        byDriver[drv.id].days++;
-        byDriver[drv.id].plan+=amt;
-        byDriver[drv.id].paid+=s;
-        plan+=amt;paid+=s;
-        if(s<amt){missedDays++;byDriver[drv.id].missed++;}
+        if(!drv.is_active)return;if(isHol(k,drv.id))return;
+        var amt=Number(drv.amount)||0;var p=getPay(k,drv.id);var s=p?p.sum:0;
+        byDriver[drv.id].days++;byDriver[drv.id].plan+=amt;byDriver[drv.id].paid+=s;
+        plan+=amt;paid+=s;if(s<amt){missedDays++;byDriver[drv.id].missed++;}
       });
     }
     var wkPlan=0,wkPaid=0,wkMissed=0,wkDays=0,bestDay=0;
     var now=new Date();
     for(var i=0;i<7;i++){
       var dt=new Date(now);dt.setDate(dt.getDate()-i);
-      var kk=kod(dt);
-      if(beforeStart(kk))continue;
-      var c=computeDay(kk);
-      wkPlan+=c.plan;wkPaid+=c.paid;wkDays++;
+      var kk=kod(dt);if(beforeStart(kk))continue;
+      var c=computeDay(kk);wkPlan+=c.plan;wkPaid+=c.paid;wkDays++;
       if(c.paid>bestDay)bestDay=c.paid;
-      S.drivers.forEach(function(drv){
-        if(!drv.is_active)return;
-        if(isHol(kk,drv.id))return;
-        var amt=Number(drv.amount)||0;
-        var p=getPay(kk,drv.id);
-        var s=p?p.sum:0;
-        if(s<amt)wkMissed++;
-      });
+      S.drivers.forEach(function(drv){if(!drv.is_active)return;if(isHol(kk,drv.id))return;var amt=Number(drv.amount)||0;var p=getPay(kk,drv.id);var s=p?p.sum:0;if(s<amt)wkMissed++;});
     }
     var avgDay=wkDays>0?Math.round(wkPaid/wkDays):0;
     var rows='';
@@ -1433,36 +1115,19 @@ function openCarSheet(carId){
   var oilTxt='—';
   if(car.last_oil_date)oilTxt=car.last_oil_date+' · '+fmt(car.last_oil_mileage);
   $('shtB').innerHTML='<div class="dw"><label class="dl">'+tr('plate')+'</label><input class="mi mono" id="cp" value="'+esc(car.plate||'')+'" style="text-transform:uppercase"></div><div class="dw"><label class="dl">'+tr('model')+'</label><input class="mi" id="cm" value="'+esc(car.model||'')+'"></div><div class="dw"><label class="dl">'+tr('mileage')+'</label><input class="mi mono" id="cmi" type="number" inputmode="numeric" value="'+(car.mileage||'')+'"></div><div class="dw"><label class="dl">'+tr('oilLast')+'</label><input class="mi mono" id="cold" value="'+esc(oilTxt)+'" readonly style="opacity:.7"></div><div class="dw"><label class="dl">'+tr('insStart')+'</label><input class="mi mono" id="cis" type="date" value="'+(car.insurance_start||'')+'"></div><div class="dw"><label class="dl">'+tr('insUntil')+'</label><input class="mi mono" id="ciu" type="date" value="'+(car.insurance_until||'')+'"></div><button class="bcr" id="btnOil" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)">🔧 '+tr('oilChange')+'</button><div class="sacts"><button class="bt btd" id="cdel">'+tr('delete')+'</button><button class="bt btp" id="cok">'+tr('save')+'</button></div>';
-  $('btnOil').addEventListener('click',async function(){
-    var m=Number($('cmi').value)||0;
-    var today=new Date();
-    var ts=today.getFullYear()+'-'+pad(today.getMonth()+1)+'-'+pad(today.getDate());
-    var r=await sb.from('cars').update({mileage:m,last_oil_date:ts,last_oil_mileage:m}).eq('id',carId);
-    if(r.error){toast('Ошибка','er');return;}
-    car.mileage=m;car.last_oil_date=ts;car.last_oil_mileage=m;
-    closeSheet();toast(tr('oilReplaced'),'su');renderReport();
-  });
-  $('cok').addEventListener('click',async function(){
-    var pl={plate:$('cp').value.toUpperCase(),model:$('cm').value.trim(),mileage:Number($('cmi').value)||0,insurance_start:$('cis').value||null,insurance_until:$('ciu').value||null};
-    var r=await sb.from('cars').update(pl).eq('id',carId);
-    if(r.error){toast('Ошибка','er');return;}
-    car.plate=pl.plate;car.model=pl.model;car.mileage=pl.mileage;car.insurance_start=pl.insurance_start;car.insurance_until=pl.insurance_until;
-    closeSheet();toast(tr('saved'),'su');renderReport();
-  });
+  $('btnOil').addEventListener('click',async function(){var m=Number($('cmi').value)||0;var today=new Date();var ts=today.getFullYear()+'-'+pad(today.getMonth()+1)+'-'+pad(today.getDate());var r=await sb.from('cars').update({mileage:m,last_oil_date:ts,last_oil_mileage:m}).eq('id',carId);if(r.error){toast('Ошибка','er');return;}car.mileage=m;car.last_oil_date=ts;car.last_oil_mileage=m;closeSheet();toast(tr('oilReplaced'),'su');renderReport();});
+  $('cok').addEventListener('click',async function(){var pl={plate:$('cp').value.toUpperCase(),model:$('cm').value.trim(),mileage:Number($('cmi').value)||0,insurance_start:$('cis').value||null,insurance_until:$('ciu').value||null};var r=await sb.from('cars').update(pl).eq('id',carId);if(r.error){toast('Ошибка','er');return;}car.plate=pl.plate;car.model=pl.model;car.mileage=pl.mileage;car.insurance_start=pl.insurance_start;car.insurance_until=pl.insurance_until;closeSheet();toast(tr('saved'),'su');renderReport();});
   $('cdel').addEventListener('click',async function(){if(!confirm(tr('delete')+'?'))return;await delCar(carId);closeSheet();});
   openSheet('sht');
 }
 
-/* ============ ADMIN ============ */
 async function renderAdminOverview(){
   var el=$('vao');
   if(!S.isAdmin){el.innerHTML='<div class="em"><div class="emi">🔒</div></div>';return;}
   load('...');
   var ur=await sb.from('profiles').select('id,username,display_name,is_admin').order('created_at',{ascending:true});
-  var users=ur.data||[];
-  var au=users.filter(function(u){return u.is_admin!==true;});
-  var stats={};
-  var td=0,tc=0,tp=0;
+  var users=ur.data||[];var au=users.filter(function(u){return u.is_admin!==true;});
+  var stats={};var td=0,tc=0,tp=0;
   if(au.length){
     var ids=au.map(function(u){return u.id;});
     var r2=await Promise.all([sb.from('drivers').select('id,owner_id,amount').in('owner_id',ids),sb.from('payments').select('owner_id,sum').in('owner_id',ids)]);
@@ -1486,52 +1151,23 @@ async function renderAdminProfiles(){
   load('...');
   var ur=await sb.from('profiles').select('id,username,display_name,password,is_admin').order('created_at',{ascending:true});
   unload();
-  var users=ur.data||[];
-  var au=users.filter(function(u){return u.is_admin!==true;});
+  var users=ur.data||[];var au=users.filter(function(u){return u.is_admin!==true;});
   el.innerHTML='<div class="ss"><div class="ssh"><div class="ssi">➕</div><div class="sst">'+tr('profiles')+'</div></div><div class="auf"><div class="dw"><label class="dl">'+tr('name')+'</label><input class="mi" id="nuN"></div><div class="dw"><label class="dl">'+tr('newPw')+' (6+)</label><input class="mi mono" id="nuP"></div><button class="bcr" id="bnu">OK</button></div></div><div class="ss"><div class="ssh"><div class="ssi">👥</div><div class="sst">'+tr('profiles')+' · '+au.length+'</div></div>'+(au.length===0?'<div class="em" style="padding:1.2rem .5rem"><div class="emi" style="font-size:1.8rem">👤</div></div>':au.map(function(u){var n=(u.display_name&&u.display_name.trim())?u.display_name.trim():u.username;return'<div class="auc"><div class="aut"><div class="auav" style="flex:none;width:2.3rem;height:2.3rem;border-radius:.6rem;background:linear-gradient(135deg,#06b6d4,#22d3ee);color:#022c22;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem">'+ini(n)+'</div><div class="aui" style="flex:1;min-width:0"><div class="aun" style="font-size:.85rem;font-weight:800">'+esc(n)+'</div><div class="aum" style="font-size:.6rem;color:var(--t3);font-family:JetBrains Mono,monospace;margin-top:.1rem">🔑 '+esc(u.password||'—')+'</div></div><button class="dhb del" data-del-user="'+u.id+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div><div class="dw"><label class="dl">'+tr('name')+'</label><input class="mi" data-uid="'+u.id+'" data-user-field="display_name" value="'+esc(u.display_name||'')+'"></div><div class="dw"><label class="dl">'+tr('changePw')+'</label><input class="mi mono" data-uid="'+u.id+'" data-user-field="password" value="'+esc(u.password||'')+'"></div></div>';}).join(''))+'</div><div style="height:5rem"></div>';
   $('bnu').addEventListener('click',async function(){
-    var n=$('nuN').value.trim();
-    var p=$('nuP').value.trim();
+    var n=$('nuN').value.trim();var p=$('nuP').value.trim();
     if(!n){toast(tr('needName'),'er');return;}
     if(!p||p.length<6){toast(tr('pwMin'),'er');return;}
     load('...');
     try{
-      var sr=await sb.auth.getSession();
-      var tok=sr.data.session.access_token;
+      var sr=await sb.auth.getSession();var tok=sr.data.session.access_token;
       var res=await fetch(SB_URL+'/functions/v1/create-user',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok,'apikey':SB_KEY},body:JSON.stringify({display_name:n,password:p})});
-      var j=await res.json();
-      unload();
+      var j=await res.json();unload();
       if(!res.ok||!j.ok){toast(j.error||'','er');return;}
-      toast('✓','su');
-      renderAdminProfiles();
+      toast('✓','su');renderAdminProfiles();
     }catch(e){unload();toast('Ошибка','er');}
   });
-  el.querySelectorAll('[data-user-field]').forEach(function(inp){
-    inp.addEventListener('blur',async function(e){
-      var id=e.target.dataset.uid,f=e.target.dataset.userField;
-      var pl={};pl[f]=e.target.value;
-      var r=await sb.from('profiles').update(pl).eq('id',id);
-      if(r.error)toast('Ошибка','er');
-    });
-  });
-  el.querySelectorAll('[data-del-user]').forEach(function(b){
-    b.addEventListener('click',async function(){
-      var id=b.dataset.delUser;
-      var u=au.find(function(x){return x.id===id;});
-      if(!u)return;
-      var l=u.display_name||u.username;
-      if(!confirm(tr('delete')+' "'+l+'"?'))return;
-      load('...');
-      await sb.from('drivers').delete().eq('owner_id',id);
-      await sb.from('payments').delete().eq('owner_id',id);
-      await sb.from('holidays').delete().eq('owner_id',id);
-      await sb.from('cars').delete().eq('owner_id',id);
-      await sb.from('profiles').delete().eq('id',id);
-      unload();
-      toast('✓','info');
-      renderAdminProfiles();
-    });
-  });
+  el.querySelectorAll('[data-user-field]').forEach(function(inp){inp.addEventListener('blur',async function(e){var id=e.target.dataset.uid,f=e.target.dataset.userField;var pl={};pl[f]=e.target.value;var r=await sb.from('profiles').update(pl).eq('id',id);if(r.error)toast('Ошибка','er');});});
+  el.querySelectorAll('[data-del-user]').forEach(function(b){b.addEventListener('click',async function(){var id=b.dataset.delUser;var u=au.find(function(x){return x.id===id;});if(!u)return;var l=u.display_name||u.username;if(!confirm(tr('delete')+' "'+l+'"?'))return;load('...');await sb.from('drivers').delete().eq('owner_id',id);await sb.from('payments').delete().eq('owner_id',id);await sb.from('holidays').delete().eq('owner_id',id);await sb.from('cars').delete().eq('owner_id',id);await sb.from('profiles').delete().eq('id',id);unload();toast('✓','info');renderAdminProfiles();});});
 }
 async function openUserSheet(uid){
   load('...');
@@ -1554,7 +1190,6 @@ async function openUserSheet(uid){
   openSheet('ust');
 }
 
-/* ============ SETTINGS ============ */
 async function renderSettings(){
   var el=$('vs');
   if(!S.profile){el.innerHTML='<div class="em"><div class="emi">🔒</div></div>';return;}
@@ -1563,6 +1198,20 @@ async function renderSettings(){
   var ph;
   if(S.isAdmin)ph='<div class="ss"><div class="pm2"><div class="pav adm">👑</div><div class="pinf"><div class="pnm">Admin</div><div class="prole">Full</div></div><div class="ptg adm">ADMIN</div></div></div>';
   else ph='<div class="ss"><div class="pm2"><div class="pav">'+ini(n)+'</div><div class="pinf"><div class="pnm">'+esc(n)+'</div><div class="prole">User</div></div><div class="ptg usr">USER</div></div></div>';
+
+  /* Telegram блок */
+  var tgLink=await tgGetLink();
+  var tgBlock='<div class="ss"><div class="ssh"><div class="ssi">📱</div><div class="sst">Telegram</div></div>';
+  if(tgLink){
+    tgBlock+='<div class="sde" style="color:var(--em2)">✅ Подключено'+(tgLink.username?' · @'+esc(tgLink.username):'')+'</div>';
+    tgBlock+='<button class="bt btd" style="padding:.7rem;width:100%;margin-top:.5rem" id="btnTgOff">🔕 Отключить</button>';
+  }else{
+    tgBlock+='<div class="sde">Получать уведомления о должниках и страховках прямо в Telegram</div>';
+    tgBlock+='<button class="bcr" id="btnTgOn">📱 Открыть @'+esc(BOT_USERNAME)+'</button>';
+    tgBlock+='<div class="hm" style="text-align:center;margin-top:.5rem">В боте: <code>/link твой_пароль</code></div>';
+  }
+  tgBlock+='</div>';
+
   var pinBlock='';
   if(!S.isAdmin){
     var bioAvail=false;
@@ -1593,59 +1242,37 @@ async function renderSettings(){
   if(!window.matchMedia('(display-mode: standalone)').matches && !localStorage.getItem('sani-install-hidden')){
     installBlock='<div class="ss" style="background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(6,182,212,.06));border-color:rgba(16,185,129,.35)"><div class="ssh"><div class="ssi">📲</div><div class="sst">'+tr('installApp')+'</div></div><div class="sde">'+tr('installDesc')+'</div><button class="bcr" id="btnInstall">📲 '+tr('installApp')+'</button></div>';
   }
-  el.innerHTML=ph+installBlock+pinBlock+langBlock+'<div class="ss"><div class="ssh"><div class="ssi">📏</div><div class="sst">'+tr('scale')+'</div></div><div class="ssw"><input type="range" id="zoomRange" min="75" max="200" step="5" value="'+p+'"><div class="ssv" id="zoomVal">'+p+'%</div></div><div class="smk"><span>75%</span><span>100%</span><span>125%</span><span>150%</span><span>175%</span><span>200%</span></div><div class="spr">'+[75,100,125,150,175,200].map(function(v){return'<button data-zoom="'+v+'" class="'+(v===p?'on':'')+'">'+v+'%</button>';}).join('')+'</div></div><div class="ss"><div class="ssh"><div class="ssi">🎨</div><div class="sst">'+tr('theme')+'</div></div><div class="tr"><div><div class="sti">'+(S.theme==='dark'?'🌙':'☀️')+'</div></div><button class="tg '+(S.theme==='dark'?'on':'')+'" id="ttg"></button></div></div>'+pwBlock+'<div class="ss dgr"><div class="ssh"><div class="ssi">🚪</div><div class="sst">'+tr('logout')+'</div></div><button class="bc" id="bout">'+tr('logout')+'</button></div><div class="ab"><div class="abt">SANI</div><div class="abs" id="aboutSub">v'+V+' · '+p+'% · '+S.theme+'</div></div><div style="height:5rem"></div>';
+  el.innerHTML=ph+tgBlock+installBlock+pinBlock+langBlock+'<div class="ss"><div class="ssh"><div class="ssi">📏</div><div class="sst">'+tr('scale')+'</div></div><div class="ssw"><input type="range" id="zoomRange" min="75" max="200" step="5" value="'+p+'"><div class="ssv" id="zoomVal">'+p+'%</div></div><div class="smk"><span>75%</span><span>100%</span><span>125%</span><span>150%</span><span>175%</span><span>200%</span></div><div class="spr">'+[75,100,125,150,175,200].map(function(v){return'<button data-zoom="'+v+'" class="'+(v===p?'on':'')+'">'+v+'%</button>';}).join('')+'</div></div><div class="ss"><div class="ssh"><div class="ssi">🎨</div><div class="sst">'+tr('theme')+'</div></div><div class="tr"><div><div class="sti">'+(S.theme==='dark'?'🌙':'☀️')+'</div></div><button class="tg '+(S.theme==='dark'?'on':'')+'" id="ttg"></button></div></div>'+pwBlock+'<div class="ss dgr"><div class="ssh"><div class="ssi">🚪</div><div class="sst">'+tr('logout')+'</div></div><button class="bc" id="bout">'+tr('logout')+'</button></div><div class="ab"><div class="abt">SANI</div><div class="abs" id="aboutSub">v'+V+' · '+p+'% · '+S.theme+'</div></div><div style="height:5rem"></div>';
   $('zoomRange').addEventListener('input',function(e){applyZoom((+e.target.value)/100);});
   el.querySelectorAll('.spr button').forEach(function(b){b.addEventListener('click',function(){applyZoom((+b.dataset.zoom)/100);toast('Размер: '+b.dataset.zoom+'%','info');});});
   $('ttg').addEventListener('click',function(){var nt=S.theme==='dark'?'light':'dark';setTheme(nt);$('ttg').classList.toggle('on',nt==='dark');});
   $('bout').addEventListener('click',doLogout);
   var btnInstall=$('btnInstall');
-  if(btnInstall)btnInstall.addEventListener('click',function(){
-    if(S.installEvt){S.installEvt.prompt();}else{toast('Откройте меню браузера → «Установить»','info');}
-  });
+  if(btnInstall)btnInstall.addEventListener('click',function(){if(S.installEvt){S.installEvt.prompt();}else{toast('Откройте меню браузера → «Установить»','info');}});
   var btnPinSet=$('btnPinSet');
   if(btnPinSet)btnPinSet.addEventListener('click',function(){showPinScreen('set');});
   var btnPinChange=$('btnPinChange');
   if(btnPinChange)btnPinChange.addEventListener('click',function(){showPinScreen('change');});
   var btnPinRemove=$('btnPinRemove');
-  if(btnPinRemove)btnPinRemove.addEventListener('click',function(){
-    if(confirm(tr('pinRemove')+'?')){localStorage.removeItem(PIN_KEY);removeBiometric();toast(tr('pinRemoved'),'su');renderSettings();}
-  });
+  if(btnPinRemove)btnPinRemove.addEventListener('click',function(){if(confirm(tr('pinRemove')+'?')){localStorage.removeItem(PIN_KEY);removeBiometric();toast(tr('pinRemoved'),'su');renderSettings();}});
   var ttgBio=$('ttgBio');
   if(ttgBio)ttgBio.addEventListener('click',async function(){
-    if(hasBiometric()){
-      removeBiometric();
-      toast(tr('pinBioOff'),'info');
-      renderSettings();
-      return;
-    }
+    if(hasBiometric()){removeBiometric();toast(tr('pinBioOff'),'info');renderSettings();return;}
     toast('Запрос Face ID...','info');
     var res=await registerBiometric();
-    if(res.ok){
-      resetBioTries();
-      toast(tr('pinBioOn'),'su');
-    }else{
-      var errMsg=res.err||'?';
-      toast('Ошибка: '+errMsg,'er');
-      setTimeout(function(){
-        alert('Face ID не сработал:\n\n'+errMsg+'\n\nПроверь:\n1. Приложение установлено как PWA (На экран Домой)\n2. iOS 16.4 или новее\n3. Открыто с иконки, не из Safari');
-      },100);
-    }
+    if(res.ok){resetBioTries();toast(tr('pinBioOn'),'su');}
+    else{var errMsg=res.err||'?';toast('Ошибка: '+errMsg,'er');setTimeout(function(){alert('Face ID не сработал:\n\n'+errMsg+'\n\nПроверь:\n1. Приложение установлено как PWA\n2. iOS 16.4 или новее\n3. Открыто с иконки, не из Safari');},100);}
     renderSettings();
   });
-  el.querySelectorAll('[data-lang]').forEach(function(b){
-    b.addEventListener('click',async function(){
-      var l=b.dataset.lang;
-      setLang(l);
-      if(S.profile){var r=await sb.from('profiles').update({lang:l}).eq('id',S.profile.id);if(!r.error)S.profile.lang=l;}
-      renderNav();refresh();renderSettings();
-      toast(l==='ru'?'Русский':'Հայերեն','su');
-    });
-  });
+  el.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',async function(){var l=b.dataset.lang;setLang(l);if(S.profile){var r=await sb.from('profiles').update({lang:l}).eq('id',S.profile.id);if(!r.error)S.profile.lang=l;}renderNav();refresh();renderSettings();toast(l==='ru'?'Русский':'Հայերեն','su');});});
+  var bTgOn=$('btnTgOn');
+  if(bTgOn)bTgOn.addEventListener('click',function(){window.open('https://t.me/'+BOT_USERNAME,'_blank');setTimeout(renderSettings,1500);});
+  var bTgOff=$('btnTgOff');
+  if(bTgOff)bTgOff.addEventListener('click',async function(){if(!confirm('Отключить Telegram-уведомления?'))return;await tgUnlink();toast('Отключено','info');renderSettings();});
   if(!S.isAdmin){
     var chPw=$('btnChPw');
     if(chPw)chPw.addEventListener('click',async function(){
-      var oldP=$('oldPw').value;
-      var newP=$('newPw').value;
+      var oldP=$('oldPw').value;var newP=$('newPw').value;
       if(!oldP){toast(tr('currentPw'),'er');return;}
       if(!newP||newP.length<6){toast(tr('pwMin'),'er');return;}
       if(oldP!==S.profile.password){toast(tr('wrongPw'),'er');return;}
@@ -1656,128 +1283,69 @@ async function renderSettings(){
         var r=await sb.from('profiles').update({password:newP}).eq('id',S.profile.id);
         unload();
         if(r.error){toast('Ошибка','er');return;}
-        S.profile.password=newP;
-        toast(tr('pwChanged'),'su');
-        $('oldPw').value='';$('newPw').value='';
+        S.profile.password=newP;toast(tr('pwChanged'),'su');$('oldPw').value='';$('newPw').value='';
       }catch(e){unload();toast('Ошибка','er');}
     });
     var bNotif=$('btnNotif');
     if(bNotif)bNotif.addEventListener('click',async function(){
       var t=$('notifyTime').value.trim();
       if(!/^\d{1,2}:\d{2}$/.test(t)){toast('ЧЧ:ММ','er');return;}
-      var parts=t.split(':');
-      var h=parseInt(parts[0]);var m=parseInt(parts[1]);
+      var parts=t.split(':');var h=parseInt(parts[0]);var m=parseInt(parts[1]);
       if(h<0||h>23||m<0||m>59){toast('!','er');return;}
       var fixed=pad(h)+':'+pad(m);
       var r=await sb.from('profiles').update({notify_time:fixed}).eq('id',S.profile.id);
       if(r.error){toast('Ошибка','er');return;}
-      S.profile.notify_time=fixed;
-      $('notifyTime').value=fixed;
-      toast(tr('saved')+': '+fixed,'su');
+      S.profile.notify_time=fixed;$('notifyTime').value=fixed;toast(tr('saved')+': '+fixed,'su');
     });
   }
 }
 
-/* ============ ALERT ============ */
 function checkAndShowAlert(){
   if(S.alertShown)return;
   var items=[];
   for(var back=0;back<=7;back++){
     var dt=new Date();dt.setDate(dt.getDate()-back);
-    var k=kod(dt);
-    if(beforeStart(k))continue;
+    var k=kod(dt);if(beforeStart(k))continue;
     S.drivers.forEach(function(drv){
       if(!drv.is_active)return;
-      if(isLate(k,drv)){
-        var p=getPay(k,drv.id);
-        var paid=p?p.sum:0;
-        var owed=(Number(drv.amount)||0)-paid;
-        items.push({key:k,drv:drv,owed:owed,date:dt});
-      }
+      if(isLate(k,drv)){var p=getPay(k,drv.id);var paid=p?p.sum:0;var owed=(Number(drv.amount)||0)-paid;items.push({key:k,drv:drv,owed:owed,date:dt});}
     });
   }
   var insAlerts=[];
-  S.cars.forEach(function(car){
-    var st=insStatus(car);
-    if(st==='warn'||st==='danger'){insAlerts.push({car:car,days:insDays(car)});}
-  });
+  S.cars.forEach(function(car){var st=insStatus(car);if(st==='warn'||st==='danger'){insAlerts.push({car:car,days:insDays(car)});}});
   if(items.length===0&&insAlerts.length===0)return;
   S.alertShown=true;
   $('alertTitle').textContent=insAlerts.length>0?tr('insuranceAlert'):tr('unpaid')+'!';
   $('alertSub').textContent=(items.length>0?items.length+' '+tr('unpaid').toLowerCase():'')+(items.length>0&&insAlerts.length>0?' · ':'')+(insAlerts.length>0?insAlerts.length+' '+tr('cars').toLowerCase():'');
-  var list=$('alertList');
-  list.innerHTML='';
+  var list=$('alertList');list.innerHTML='';
   insAlerts.slice(0,10).forEach(function(it){
-    var el=document.createElement('div');
-    el.className='alert-it';
-    el.style.background='rgba(245,158,11,.1)';
-    el.style.borderColor='rgba(245,158,11,.4)';
+    var el=document.createElement('div');el.className='alert-it';el.style.background='rgba(245,158,11,.1)';el.style.borderColor='rgba(245,158,11,.4)';
     el.innerHTML='<div class="alert-av" style="background:rgba(245,158,11,.3);color:#fbbf24">🚗</div><div class="alert-if"><div class="alert-n">'+esc(it.car.plate||it.car.model||'—')+'</div><div class="alert-mm" style="color:#fbbf24">'+(it.days<0?tr('insExpired'):it.days+' '+tr('insDaysLeft'))+' · '+(it.car.insurance_until||'')+'</div></div>';
     list.appendChild(el);
   });
   items.slice(0,15).forEach(function(it){
-    var d=it.date;
-    var el=document.createElement('div');
-    el.className='alert-it';
+    var d=it.date;var el=document.createElement('div');el.className='alert-it';
     el.innerHTML='<div class="alert-av">'+ini(it.drv.name)+'</div><div class="alert-if"><div class="alert-n">'+esc(it.drv.name||'—')+(it.drv.plate?' · '+esc(it.drv.plate):'')+'</div><div class="alert-mm">'+d.getDate()+' '+MG[d.getMonth()]+' · <b>'+fmt(it.owed)+' ֏</b></div></div>';
     list.appendChild(el);
   });
   $('am').classList.add('on');
 }
 
-/* ============ INIT ============ */
 function init(){
   S.theme=localStorage.getItem('sani-theme')||'dark';
   S.lang=localStorage.getItem('sani-lang')||'ru';
   document.documentElement.setAttribute('data-theme',S.theme);
   var z=parseFloat(localStorage.getItem('sani-zoom'));
   S.zoom=(!isNaN(z)&&z>=ZMIN&&z<=ZMAX)?z:1;
-  applyZoom(S.zoom);
-  on();
+  applyZoom(S.zoom);on();
   $('pinPad').addEventListener('click',function(e){
-    var btn=e.target.closest('button');
-    if(!btn)return;
+    var btn=e.target.closest('button');if(!btn)return;
     var d=btn.dataset.d,act=btn.dataset.act;
     if(d)handlePinDigit(d);
     else if(act==='back'){S.pinBuffer=S.pinBuffer.slice(0,-1);updatePinDots();}
     else if(act==='face'){tryBiometric();}
   });
-  async function tryBiometric(){
-    try{
-      var res=await verifyBiometric();
-      if(res.ok){
-        resetBioTries();
-        sessionStorage.setItem(UNLOCK_KEY,'1');
-        hidePinScreen();
-        if(navigator.vibrate)navigator.vibrate([30,50,30]);
-        checkSession();
-      }else{
-        /* Отмена пользователем — не считаем как ошибку */
-        if(res.err==='cancelled'||res.err==='NotAllowedError'||res.err==='AbortError'){
-          return;
-        }
-        /* Реальная ошибка — увеличиваем счётчик */
-        var tries=getBioTries()+1;
-        setBioTries(tries);
-        if(tries>=BIO_MAX_TRIES){
-          $('pinFaceBtn').style.display='none';
-          pinError(tr('bioBlocked'));
-        }else{
-          pinError(tr('bioTry')+' ('+tries+'/'+BIO_MAX_TRIES+')');
-        }
-      }
-    }catch(e){
-      pinError('Ошибка: '+e.message);
-    }
-  }
-  $('pinForgot').addEventListener('click',function(){
-    if(confirm('Войти по паролю?')){
-      localStorage.removeItem(PIN_KEY);
-      resetBioTries();
-      hidePinScreen();
-      showAuth();
-    }
-  });
+  $('pinForgot').addEventListener('click',function(){if(confirm('Войти по паролю?')){localStorage.removeItem(PIN_KEY);resetBioTries();hidePinScreen();showAuth();}});
   $('bqt').addEventListener('click',function(){setTheme(S.theme==='dark'?'light':'dark');if(S.tab==='vs')renderSettings();});
   $('pd').addEventListener('click',function(){shiftDay(-1);});
   $('nd').addEventListener('click',function(){shiftDay(1);});
