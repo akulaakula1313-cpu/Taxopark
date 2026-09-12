@@ -1,4 +1,4 @@
-const CACHE = 'sani-v9.5';
+const CACHE = 'sani-v9.6';
 const ASSETS = ['./', './index.html'];
 
 self.addEventListener('install', e => {
@@ -35,5 +35,34 @@ self.addEventListener('fetch', e => {
       }
       return resp;
     }).catch(() => caches.match('./')))
+  );
+});
+
+/* ============ PUSH ============ */
+self.addEventListener('push', e => {
+  let data = {title:'SANI', body:'Новое уведомление', url:'/'};
+  try {
+    if (e.data) data = Object.assign(data, e.data.json());
+  } catch(_) {}
+  e.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      tag: data.tag || 'sani',
+      data: {url: data.url || '/'},
+      requireInteraction: false,
+    })
+  );
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || '/';
+  e.waitUntil(
+    clients.matchAll({type:'window', includeUncontrolled:true}).then(list => {
+      for (const c of list) {
+        if ('focus' in c) { c.navigate(url); return c.focus(); }
+      }
+      if (clients.openWindow) return clients.openWindow(url);
+    })
   );
 });
