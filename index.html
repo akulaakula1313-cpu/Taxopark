@@ -389,7 +389,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:1.2rem;hei
 var SB_URL='https://kaovizvikplhsxoonsxu.supabase.co';
 var SB_KEY='sb_publishable_FmQzXiONzl5zE3d6E24iWA_tRukHNPn';
 var sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-var V='9.5',ZMIN=.75,ZMAX=2,MIN_DATE='2026-09-01';
+var V='9.6',ZMIN=.75,ZMAX=2,MIN_DATE='2026-09-01';
+var VAPID_PUBLIC='BEH1vFxDYNTiLM2nSXTcHLJXxTdQLl4hTTHQlsQR8A8PseMEQyovOG6mnS7bwLZaAiRiYnCydtmniL46vnc89Xk';
 var BOT_USERNAME='sani_park_bot';
 var PIN_KEY='sani-pin-hash',CRED_KEY='sani-cred-id',UNLOCK_KEY='sani-unlocked',BIO_TRIES_KEY='sani-bio-tries',BIO_MAX_TRIES=3;
 
@@ -537,6 +538,61 @@ async function processPin(){
 }
 
 /* ============ TELEGRAM ============ */
+/* ============ PUSH ============ */
+function urlBase64ToUint8Array(base64String){
+  var padding='='.repeat((4-base64String.length%4)%4);
+  var base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/');
+  var rawData=atob(base64);
+  var outputArray=new Uint8Array(rawData.length);
+  for(var i=0;i<rawData.length;++i)outputArray[i]=rawData.charCodeAt(i);
+  return outputArray;
+}
+async function pushSubscribe(){
+  try{
+    if(!('serviceWorker' in navigator)||!('PushManager' in window))return{ok:false,err:'Браузер не поддерживает'};
+    if(!VAPID_PUBLIC)return{ok:false,err:'Ключ не настроен'};
+    var perm=await Notification.requestPermission();
+    if(perm!=='granted')return{ok:false,err:'Разрешение отклонено'};
+    var reg=await navigator.serviceWorker.ready;
+    var sub=await reg.pushManager.getSubscription();
+    if(!sub){
+      sub=await reg.pushManager.subscribe({
+        userVisibleOnly:true,
+        applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC)
+      });
+    }
+    var j=sub.toJSON();
+    var r=await sb.from('push_subscriptions').upsert({
+      profile_id:S.ownerId,
+      endpoint:j.endpoint,
+      p256dh:j.keys.p256dh,
+      auth:j.keys.auth,
+      user_agent:navigator.userAgent
+    },{onConflict:'endpoint'});
+    if(r.error)return{ok:false,err:r.error.message};
+    return{ok:true};
+  }catch(e){return{ok:false,err:(e&&e.message)?e.message:'unknown'};}
+}
+async function pushUnsubscribe(){
+  try{
+    var reg=await navigator.serviceWorker.ready;
+    var sub=await reg.pushManager.getSubscription();
+    if(sub){
+      await sb.from('push_subscriptions').delete().eq('endpoint',sub.endpoint);
+      await sub.unsubscribe();
+    }
+    return{ok:true};
+  }catch(e){return{ok:false,err:e.message};}
+}
+async function pushStatus(){
+  try{
+    if(!('serviceWorker' in navigator)||!('PushManager' in window))return'unsupported';
+    if(Notification.permission!=='granted')return'denied';
+    var reg=await navigator.serviceWorker.ready;
+    var sub=await reg.pushManager.getSubscription();
+    return sub?'on':'off';
+  }catch(e){return'off';}
+}
 async function tgGetLink(){
   try{
     if(!S.ownerId)return null;
@@ -1238,11 +1294,31 @@ async function renderSettings(){
     pwBlock+='<div class="ss"><div class="ssh"><div class="ssi">⏰</div><div class="sst">'+tr('notifyTime')+'</div></div><div class="sde">'+tr('notifyDesc')+'</div><div class="nt"><input type="text" id="notifyTime" value="'+esc(S.profile.notify_time||'20:00')+'" placeholder="20:00" maxlength="5"></div><button class="bcr" id="btnNotif" style="margin-top:.6rem">'+tr('save')+'</button></div>';
   }
   var langBlock='<div class="ss"><div class="ssh"><div class="ssi">🌍</div><div class="sst">'+tr('lang')+'</div></div><div style="display:flex;gap:.4rem;margin-top:.3rem"><button class="bt" data-lang="ru" style="padding:.6rem;background:'+(S.lang==='ru'?'linear-gradient(135deg,#10b981,#06b6d4);color:#022c22':'var(--s2);color:var(--t2);border:1px solid var(--ln)')+'">🇷🇺 Русский</button><button class="bt" data-lang="am" style="padding:.6rem;background:'+(S.lang==='am'?'linear-gradient(135deg,#10b981,#06b6d4);color:#022c22':'var(--s2);color:var(--t2);border:1px solid var(--ln)')+'">🇦🇲 Հայերեն</button></div></div>';
+  /* Push блок */
+var pushBlock='';
+if(!S.isAdmin){
+  var pst=await pushStatus();
+  var pInfo='';
+  var pBtn='';
+  if(pst==='unsupported'){
+    pInfo='⚠️ Браузер не поддерживает push';
+  }else if(pst==='denied'){
+    pInfo='🔕 Уведомления запрещены в настройках телефона';
+    pBtn='<button class="bcr" style="background:linear-gradient(135deg,#64748b,#94a3b8)" id="btnPushOpen">Открыть настройки</button>';
+  }else if(pst==='on'){
+    pInfo='✅ Push-уведомления включены';
+    pBtn='<button class="bt btd" style="padding:.7rem;width:100%;margin-top:.5rem" id="btnPushOff">🔕 Отключить</button>';
+  }else{
+    pInfo='🔔 Получать уведомления прямо на телефон (даже если SANI закрыт)';
+    pBtn='<button class="bcr" id="btnPushOn">🔔 Включить уведомления</button>';
+  }
+  pushBlock='<div class="ss" style="background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(6,182,212,.06));border-color:rgba(139,92,246,.35)"><div class="ssh"><div class="ssi">🔔</div><div class="sst">Push-уведомления</div></div><div class="sde">'+pInfo+'</div>'+pBtn+'</div>';
+}
   var installBlock='';
   if(!window.matchMedia('(display-mode: standalone)').matches && !localStorage.getItem('sani-install-hidden')){
     installBlock='<div class="ss" style="background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(6,182,212,.06));border-color:rgba(16,185,129,.35)"><div class="ssh"><div class="ssi">📲</div><div class="sst">'+tr('installApp')+'</div></div><div class="sde">'+tr('installDesc')+'</div><button class="bcr" id="btnInstall">📲 '+tr('installApp')+'</button></div>';
   }
-  el.innerHTML=ph+tgBlock+installBlock+pinBlock+langBlock+'<div class="ss"><div class="ssh"><div class="ssi">📏</div><div class="sst">'+tr('scale')+'</div></div><div class="ssw"><input type="range" id="zoomRange" min="75" max="200" step="5" value="'+p+'"><div class="ssv" id="zoomVal">'+p+'%</div></div><div class="smk"><span>75%</span><span>100%</span><span>125%</span><span>150%</span><span>175%</span><span>200%</span></div><div class="spr">'+[75,100,125,150,175,200].map(function(v){return'<button data-zoom="'+v+'" class="'+(v===p?'on':'')+'">'+v+'%</button>';}).join('')+'</div></div><div class="ss"><div class="ssh"><div class="ssi">🎨</div><div class="sst">'+tr('theme')+'</div></div><div class="tr"><div><div class="sti">'+(S.theme==='dark'?'🌙':'☀️')+'</div></div><button class="tg '+(S.theme==='dark'?'on':'')+'" id="ttg"></button></div></div>'+pwBlock+'<div class="ss dgr"><div class="ssh"><div class="ssi">🚪</div><div class="sst">'+tr('logout')+'</div></div><button class="bc" id="bout">'+tr('logout')+'</button></div><div class="ab"><div class="abt">SANI</div><div class="abs" id="aboutSub">v'+V+' · '+p+'% · '+S.theme+'</div></div><div style="height:5rem"></div>';
+  el.innerHTML=ph+pushBlock+tgBlock+installBlock+pinBlock+langBlock+'<div class="ss">...<div class="ssh"><div class="ssi">📏</div><div class="sst">'+tr('scale')+'</div></div><div class="ssw"><input type="range" id="zoomRange" min="75" max="200" step="5" value="'+p+'"><div class="ssv" id="zoomVal">'+p+'%</div></div><div class="smk"><span>75%</span><span>100%</span><span>125%</span><span>150%</span><span>175%</span><span>200%</span></div><div class="spr">'+[75,100,125,150,175,200].map(function(v){return'<button data-zoom="'+v+'" class="'+(v===p?'on':'')+'">'+v+'%</button>';}).join('')+'</div></div><div class="ss"><div class="ssh"><div class="ssi">🎨</div><div class="sst">'+tr('theme')+'</div></div><div class="tr"><div><div class="sti">'+(S.theme==='dark'?'🌙':'☀️')+'</div></div><button class="tg '+(S.theme==='dark'?'on':'')+'" id="ttg"></button></div></div>'+pwBlock+'<div class="ss dgr"><div class="ssh"><div class="ssi">🚪</div><div class="sst">'+tr('logout')+'</div></div><button class="bc" id="bout">'+tr('logout')+'</button></div><div class="ab"><div class="abt">SANI</div><div class="abs" id="aboutSub">v'+V+' · '+p+'% · '+S.theme+'</div></div><div style="height:5rem"></div>';
   $('zoomRange').addEventListener('input',function(e){applyZoom((+e.target.value)/100);});
   el.querySelectorAll('.spr button').forEach(function(b){b.addEventListener('click',function(){applyZoom((+b.dataset.zoom)/100);toast('Размер: '+b.dataset.zoom+'%','info');});});
   $('ttg').addEventListener('click',function(){var nt=S.theme==='dark'?'light':'dark';setTheme(nt);$('ttg').classList.toggle('on',nt==='dark');});
@@ -1264,6 +1340,24 @@ async function renderSettings(){
     else{var errMsg=res.err||'?';toast('Ошибка: '+errMsg,'er');setTimeout(function(){alert('Face ID не сработал:\n\n'+errMsg+'\n\nПроверь:\n1. Приложение установлено как PWA\n2. iOS 16.4 или новее\n3. Открыто с иконки, не из Safari');},100);}
     renderSettings();
   });
+  var bPushOn=$('btnPushOn');
+if(bPushOn)bPushOn.addEventListener('click',async function(){
+  toast('Запрос разрешения...','info');
+  var r=await pushSubscribe();
+  if(r.ok)toast('✅ Уведомления включены','su');
+  else toast('❌ '+(r.err||'?'),'er');
+  renderSettings();
+});
+var bPushOff=$('btnPushOff');
+if(bPushOff)bPushOff.addEventListener('click',async function(){
+  await pushUnsubscribe();
+  toast('Отключено','info');
+  renderSettings();
+});
+var bPushOpen=$('btnPushOpen');
+if(bPushOpen)bPushOpen.addEventListener('click',function(){
+  alert('Открой настройки телефона → Уведомления → SANI → Разрешить');
+});
   el.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',async function(){var l=b.dataset.lang;setLang(l);if(S.profile){var r=await sb.from('profiles').update({lang:l}).eq('id',S.profile.id);if(!r.error)S.profile.lang=l;}renderNav();refresh();renderSettings();toast(l==='ru'?'Русский':'Հայերեն','su');});});
   var bTgOn=$('btnTgOn');
   if(bTgOn)bTgOn.addEventListener('click',function(){window.open('https://t.me/'+BOT_USERNAME,'_blank');setTimeout(renderSettings,1500);});
